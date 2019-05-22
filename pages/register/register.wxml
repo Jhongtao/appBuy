@@ -16,9 +16,9 @@
 </view>
 <view><label for="password2">确认密码：</label><input type="text" name="password2" id="password2" maxlength="20" password="password" placeholder="请再次输入密码"/><text></text>
 </view>
-<view><label for="mobile">手机号：</label><input type="number" name="phone" id="phone" value="" maxlength="11" bindinput="getphone" class="{{validphone?'valid':'invalid'}}" placeholder="请输入手机号"/><text>大陆11位数字手机号</text>
+<view><label for="mobile">手机号：</label><input type="number" name="phone" id="phone" value="" maxlength="11" bindinput="getphone" class="{{validphone?'valid':'invalid'}}" bindblur="phoneShow" placeholder="请输入手机号"/><text wx:if="{{phoneShow}}">大陆11位数字手机号</text>
 </view>
-<view><label for="picCode">图形验证码：</label><input type="number" name="picCode" id="picCode" maxlength="6" bindfocus="verifyImg" class="{{picCode.length<6?'invalid':''}}" bindinput="setpicCode" value="{{picCode}}" placeholder="请输入图形验证码" /><image src="{{VerifyImg}}" mode="aspectFit" bindtap="changeVerifyImg" /><text>6位数字图形验证码</text></view>
+<view><label for="picCode">图形验证码：</label><input type="number" name="picCode" id="picCode" maxlength="6" bindfocus="verifyImg" class="{{picCode.length<6?'invalid':''}}" bindblur="codeShow" bindinput="setpicCode" value="{{picCode}}" placeholder="请输入图形验证码" /><image src="{{VerifyImg}}" mode="aspectFit" bindtap="changeVerifyImg" /><text wx:if="{{codeShow}}">6位数字图形验证码</text></view>
 <view><label for="code">短信验证码：</label><input type="number" name="code" id="code" maxlength="8" placeholder="请输入短信验证码" /><view id="send" bindtap="sendmsgcode">发　送</view><text></text></view>
 <view class="check"><checkbox-group name="checkbox"  bindtap="showmodel" bindchange="checkboxChange"><checkbox value="1" color="#2655B6"  checked="{{hasread}}" />我已仔细阅读并接受注册许可协议</checkbox-group></view>
 <button form-type="submit" type="primary">立即注册</button>

@@ -7,7 +7,8 @@ Page({
         VerifyImg: '/img/code.svg',
         picCode: '',
         sessionid: '',
-        header: ''
+        header: '',
+        showCode: false
     },
     onLoad: function(options) {
         wx.removeStorageSync("realname");
@@ -18,6 +19,17 @@ Page({
     },
     onShow: function() {
 
+    },
+    changCode(e) {
+        if (e.detail.value.length < 6) {
+            this.setData({
+                showCode: true
+            })
+        } else {
+            this.setData({
+                showCode: false
+            })
+        }
     },
     verifyImg(e) {
 
@@ -126,7 +138,7 @@ Page({
                 console.log(res)
                 this.setData({
                     picCode: '',
-                    VerifyImg: '../img/code.svg',
+                    VerifyImg: '/img/code.svg',
                     picId: ''
                 });
                 wx.showToast({

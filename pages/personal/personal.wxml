@@ -4,7 +4,7 @@
 <image src="{{userInfo.avatarUrl}}" mode="scaleToFill" class="userface" />
 </block>
 <block wx:else>
-<button bindgetuserinfo="getUserInfo" open-type="getUserInfo">
+<button class="user-log" bindgetuserinfo="getUserInfo" open-type="getUserInfo">
     <image src="/img/userface.png" mode="scaleToFill" class="userface" />
 </button>
 </block>

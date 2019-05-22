@@ -29,7 +29,7 @@
 </view>
 <view class="products">
 <block wx:if="{{products.length==0}}">
-<image src="../img/unfound.svg" class="pp" mode="aspectFit" />
+<image src="/img/unfound.svg" class="pp" mode="aspectFit" />
 </block>
 <block wx:else>
 <block wx:for="{{products}}"  wx:for-item="item" wx:key="index">

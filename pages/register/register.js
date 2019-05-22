@@ -8,7 +8,7 @@ Page({
         provinceCode: 0,
         cityCode: 0,
         areaCode: 0,
-        VerifyImg: '../img/code.svg',
+        VerifyImg: '/img/code.svg',
         picId: '',
         phone: '',
         validphone: false,
@@ -16,10 +16,34 @@ Page({
         sessionid: '',
         verifyId: 'e45c090ec275494dbc213f345020179c',
         hasread: false,
-        showmodel: false
+        showmodel: false,
+        phoneShow: false,
+        codeShow: false
     },
     onLoad: function(options) {
         region.IdToVal.call(this);
+    },
+    codeShow(e) {
+        if (e.detail.value.length < 6) {
+            this.setData({
+                codeShow: true
+            })
+        } else {
+            this.setData({
+                codeShow: false
+            })
+        }
+    },
+    phoneShow(e) {
+        if (e.detail.value.length < 11) {
+            this.setData({
+                phoneShow: true
+            })
+        } else {
+            this.setData({
+                phoneShow: false
+            })
+        }
     },
     verifyImg(e) {
         if (this.data.picId == '') {
@@ -109,7 +133,7 @@ Page({
                 if (res.data.Code != 30103) {
                     this.setData({
                         picCode: '',
-                        verifyImg: '../img/code.svg',
+                        verifyImg: '/img/code.svg',
                         picId: ''
                     });
                     wx.showToast({
@@ -181,7 +205,7 @@ Page({
             });
             return;
         }
-        if (obj.region[0] == 0) {
+        if (obj.region.lenth !== 3) {
             wx.showToast({
                 title: '请选择省市区',
                 icon: 'none',

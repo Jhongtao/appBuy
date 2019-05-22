@@ -1,49 +1,103 @@
 /* pages/user/index.wxss */
-page{background-color:#eee;}
-view.masthead{background-color:#2655B6;padding:8px 14px 14px 14px}
-image.userface{width:64px;height:64px;border-radius:50%;display:inline-block;margin-right:18px;vertical-align:top;box-sizing:border-box;border:2px solid #fff;box-shadow:0 0 1px #000;}
-view.masthead > view{display:inline-block;width:calc(100% - 82px);color:#fff;font-size:14px;vertical-align:top;padding:6px 0;box-sizing:border-box;}
-view.masthead > view>text{display:block;height:32px;}
-view.masthead > view>navigator{display:inline-block;text-decoration:underline;}
 
-view.item-group{
-background-color:#eee;
-padding:1px;
-margin:12px;
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-align-items:flex-start;
+page {
+    background-color: #eee;
 }
-view.item-group>view{
-background-color:#fff;
-padding:14px 0  0 16px;
-height:48px;
-width:100%;
-flex-shrink:1;
-box-sizing:border-box;
-color:#2655B6;
+
+view.masthead {
+    background-color: #2655B6;
+    padding: 8px 14px 14px 14px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
-view.item-group>view::before{
-  content: "\F110";
-  font-family:'ionIcons';
-  font-size:18px;
-  position:relative;top:2px;
-  color:#2655B6;
-  display:inline-block;
-  margin-right:3px;
+
+image.userface {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 18px;
+    vertical-align: top;
+    box-sizing: border-box;
+    border: 2px solid #fff;
+    box-shadow: 0 0 1px #000;
 }
-view.item-group>navigator{
-  vertical-align:top;
-  width:100px;
-  flex-shrink:1;
-  flex-grow:1;
-  row-gap:1px;
-  column-gap:1px;
-  outline:1px solid #eee;
-  background-color:#fff;
-  text-align:center;
-  padding:12px 0 0 0;
-  height:42px;
-  box-sizing:border-box;
+
+view.masthead>view {
+    display: inline-block;
+    width: calc(100% - 82px);
+    color: #fff;
+    font-size: 14px;
+    vertical-align: top;
+    padding: 6px 0;
+    box-sizing: border-box;
+}
+
+view.masthead>view>text {
+    display: block;
+    height: 32px;
+}
+
+view.masthead>view>navigator {
+    display: inline-block;
+    text-decoration: underline;
+}
+
+view.item-group {
+    background-color: #eee;
+    padding: 1px;
+    margin: 12px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}
+
+.user-log {
+    padding: 0;
+    margin: 0;
+    width: 150rpx;
+    height: 150rpx;
+    background-color: transparent;
+}
+
+.user-log:after {
+    border: none;
+}
+
+view.item-group>view {
+    background-color: #fff;
+    padding: 14px 0 0 16px;
+    height: 48px;
+    width: 100%;
+    flex-shrink: 1;
+    box-sizing: border-box;
+    color: #2655B6;
+}
+
+view.item-group>view::before {
+    content: "\F110";
+    font-family: 'ionIcons';
+    font-size: 18px;
+    position: relative;
+    top: 2px;
+    color: #2655B6;
+    display: inline-block;
+    margin-right: 3px;
+}
+
+view.item-group>navigator {
+    vertical-align: top;
+    width: 100px;
+    flex-shrink: 1;
+    flex-grow: 1;
+    row-gap: 1px;
+    column-gap: 1px;
+    outline: 1px solid #eee;
+    background-color: #fff;
+    text-align: center;
+    padding: 12px 0 0 0;
+    height: 42px;
+    box-sizing: border-box;
 }
