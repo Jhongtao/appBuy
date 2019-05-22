@@ -382,7 +382,7 @@ Page({
     viewcart: function() {
         if (this.data.token == '') {
             wx.navigateTo({
-                url: '../user/login'
+                url: '/pages/login/login'
             })
             return;
         }
@@ -450,7 +450,7 @@ Page({
         var productinfo = this.data.productinfo;
         // console.log(this.data.immediatebuy)
         if (this.data.immediatebuy) {
-            var url = '../user/cart5?count=' + this.data.ordercount + '&SeGoodsId=' + productinfo.Classify[ppindex].SeGoodsId + '&GoodsCode=' + productinfo.Classify[ppindex].GoodsCode;
+            var url = '../cart5/cart5?count=' + this.data.ordercount + '&SeGoodsId=' + productinfo.Classify[ppindex].SeGoodsId + '&GoodsCode=' + productinfo.Classify[ppindex].GoodsCode;
             wx.navigateTo({ url: url });
             return;
         }

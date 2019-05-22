@@ -5,21 +5,21 @@
 </block>
 <block wx:else>
 <button bindgetuserinfo="getUserInfo" open-type="getUserInfo">
-    <image src="../img/userface.png" mode="scaleToFill" class="userface" />
+    <image src="/img/userface.png" mode="scaleToFill" class="userface" />
 </button>
 </block>
-<view wx:if="{{realname==''}}"><navigator url="login">点此登录</navigator> / <navigator url="register">注册帐号</navigator></view>
+<view wx:if="{{realname==''}}"><navigator url="/pages/login/login">点此登录</navigator> / <navigator url="/pages/register/register">注册帐号</navigator></view>
 <view wx:else>
-<text>欢迎您，{{realname}}！</text><navigator url="info">完善用户信息</navigator> / <navigator url="login">登出帐号</navigator>
+<text>欢迎您，{{realname}}！</text><navigator wx:if="{{false}}" url="/pages/info/info">完善用户信息/</navigator>  <navigator url="/pages/login/login">登出帐号</navigator>
 </view>
 </view>
 <view class="item-group">
 <view>帐号管理</view>
 <navigator url="/pages/info/info">安全设置</navigator>
-<navigator url="pay">支付管理</navigator>
-<navigator url="order">订单管理</navigator>
-<navigator url="address">收货地址</navigator>
-<navigator url="invoice">发票管理</navigator>
+<navigator url="/pages/pay/pay">支付管理</navigator>
+<navigator url="/pages/order/order">订单管理</navigator>
+<navigator url="/pages/address/address">收货地址</navigator>
+<navigator url="/pages/invoice/invoice">发票管理</navigator>
 </view>
 <view wx:if="{{false}}" class="item-group">
 <view>卖家中心</view>

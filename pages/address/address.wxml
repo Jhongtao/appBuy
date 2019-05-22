@@ -3,7 +3,7 @@
 <view class="panelhead"><text>收货地址</text><text bindtap="switchs">添加收货地址</text></view>
 <scroll-view scroll-y="true">
 <block wx:if="{{addressList.length==0}}">
-<image src="../img/unfound.svg" class="pp" mode="aspectFit" />
+<image src="/img/unfound.svg" class="pp" mode="aspectFit" />
 </block>
 <block wx:else>
 <view class="listitem" wx:for="{{addressList}}" wx:for-item="item" wx:key="index">

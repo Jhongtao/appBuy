@@ -1,22 +1,21 @@
 {
     "pages": [
         "pages/index/index",
-        "pages/user/index",
+        "pages/personal/personal",
         "pages/cart/cart",
         "pages/address/address",
-        "pages/user/order",
+        "pages/order/order",
         "pages/logs/logs",
         "pages/cate/cate",
-        "pages/search/search",
         "pages/products/products",
         "pages/product/product",
         "pages/info/info",
-        "pages/user/login",
-        "pages/user/findPasswd",
-        "pages/user/register",
-        "pages/user/pay",
-        "pages/user/invoice",
-        "pages/user/orderDtl",
+        "pages/login/login",
+        "pages/findPasswd/findPasswd",
+        "pages/register/register",
+        "pages/pay/pay",
+        "pages/invoice/invoice",
+        "pages/orderDtl/orderDtl",
         "pages/cart2/cart2",
         "pages/cart3/cart3",
         "pages/cart5/cart5"
@@ -35,20 +34,20 @@
         "list": [{
                 "pagePath": "pages/index/index",
                 "text": "首页",
-                "iconPath": "pages/img/home.png",
-                "selectedIconPath": "pages/img/home2.png"
+                "iconPath": "/img/home.png",
+                "selectedIconPath": "/img/home2.png"
             },
             {
                 "pagePath": "pages/cart/cart",
                 "text": "购物车",
-                "iconPath": "pages/img/cart.png",
-                "selectedIconPath": "pages/img/cart2.png"
+                "iconPath": "/img/cart.png",
+                "selectedIconPath": "/img/cart2.png"
             },
             {
-                "pagePath": "pages/user/index",
+                "pagePath": "pages/personal/personal",
                 "text": "会员中心",
-                "iconPath": "pages/img/user.png",
-                "selectedIconPath": "pages/img/user2.png"
+                "iconPath": "/img/user.png",
+                "selectedIconPath": "/img/user2.png"
             }
         ]
     },

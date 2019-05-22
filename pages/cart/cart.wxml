@@ -1,7 +1,7 @@
 <!--pages/user/cart.wxml-->
 <block wx:if="{{CartGoods.length==0}}">
 <view class="cartgoods">
-  <image src="../img/cart.svg"  mode="aspectFit" />
+  <image src="/img/cart.svg"  mode="aspectFit" />
   <navigator wx:if="{{token==''}}" url="login">请先登录</navigator>
   <text wx:else>购物车还是空的...</text>
 </view>

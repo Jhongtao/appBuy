@@ -1,5 +1,5 @@
 <view class="masthead">
-<text>登录</text> | <navigator url="register">注册</navigator>
+<text>登录</text>  <navigator wx:if="{{false}}" open-type="navigateBack" url="/pages/register/register">|注册</navigator>
 </view>
 <scroll-view>
 <form bindsubmit="CheckUser">
@@ -13,6 +13,6 @@
 <view><label for="picCode">图形验证码：</label><input type="number" name="picCode" id="picCode" maxlength="6" bindfocus="verifyImg" class="{{picCode.length<6?'invalid':''}}" value="{{picCode}}" placeholder="请输入图形验证码" /><image src="{{VerifyImg}}" mode="aspectFit" bindtap="changeVerifyImg" /><text>6位数字图形验证码</text></view>
 <button form-type="submit">登　录</button>
 <view>
-<navigator url="findPasswd">密码忘了？点此找回你的密码</navigator></view>
+<navigator url="/pages/findPasswd/findPasswd">密码忘了？点此找回你的密码</navigator></view>
 </form>
 </scroll-view>

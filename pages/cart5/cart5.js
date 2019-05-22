@@ -212,7 +212,7 @@ Page({
                         icon: 'none',
                         duration: 1000
                     });
-                } else wx.navigateTo({ "url": "cart2?orderid=" + res.data.Datas });
+                } else wx.navigateTo({ "url": "/pages/cart2/cart2?orderid=" + res.data.Datas });
             })
             // wx.request({
             //     url: "https://shoptest.jzyglxt.com/Buyer/DirectSettleOrder",

@@ -40,7 +40,7 @@
 <view bindtap="tocart" style="text-align:center;height:34px;padding-top:8px;color:#999;font-weight:bold;">去结算</view>
 </block>
 <block wx:else>
-<image src="../img/unfound.svg" class="pp" mode="aspectFit" />
+<image src="/img/unfound.svg" class="pp" mode="aspectFit" />
 </block>
 </view><view bindtap="viewcart"></view>
 <view class="order {{vieworder?'show':'hide'}}">
@@ -57,7 +57,7 @@
 </view><view bindtap="addcart"></view>
 <block wx:if="{{pid==''}}">
 <view class="product">
-<image src="../img/unfound.svg" mode="aspectFit"/>
+<image src="/img/unfound.svg" mode="aspectFit"/>
 </view>
 </block>
 <block wx:else>

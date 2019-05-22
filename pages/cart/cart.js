@@ -40,8 +40,8 @@ Page({
      */
     onShow: function() {
         var token = wx.getStorageSync('token');
+        if (!token) return
         dataApi.checkToken({ token }).then(res => {
-            console.log(res)
             if (res.data.Code == 0) {
                 this.setData({ token: token });
                 dataApi.getUserCart({ token }).then(res => {
@@ -465,7 +465,7 @@ Page({
                         icon: 'none',
                         duration: 1000
                     });
-                } else wx.navigateTo({ "url": "cart2?orderid=" + res.data.Datas });
+                } else wx.navigateTo({ "url": "/pages/cart2/cart2?orderid=" + res.data.Datas });
             })
             // wx.request({
             //     url: "https://shoptest.jzyglxt.com/Buyer/SettleOrder",

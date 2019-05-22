@@ -14,7 +14,7 @@
 <view wx:if="{{s==1||s==3||s==4}}">操作</view>
 </view><scroll-view scroll-y class="list" bindscrolltolower="loadData">
 <block wx:if="{{List.length==0}}">
-<image src="../img/unfound.svg" class="pp" mode="aspectFit" />
+<image src="/img/unfound.svg" class="pp" mode="aspectFit" />
 </block>
 <block wx:else>
 <view wx:for="{{List}}" wx:for-item="item" wx:key="index" class="listitem">

@@ -4,7 +4,7 @@ import dataApi from '../../utils/dataApi'
 Page({
     data: {
         picId: '',
-        VerifyImg: '../img/code.svg',
+        VerifyImg: '/img/code.svg',
         picCode: '',
         sessionid: '',
         header: ''
@@ -26,8 +26,8 @@ Page({
         }
     },
     changeVerifyImg(e) {
-        var url = 'https://shoptest.jzyglxt.com/ComApi/GetPicVerify';
-        this.setData({ 'header': url });
+        // var url = 'https://shoptest.jzyglxt.com/ComApi/GetPicVerify';
+        // this.setData({ 'header': url });
         dataApi.getPicVerify({ _: Math.random() }).then(res => {
             // console.log(res)
             var sessionid = res.header["Set-Cookie"];
