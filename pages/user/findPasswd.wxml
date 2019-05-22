@@ -1,0 +1,23 @@
+<!--pages/user/findPasswd.wxml-->
+<view class="masthead s{{s}}">
+<text>验证身份</text>»
+<text>输入新密码</text>
+</view>
+<block wx:if="{{s==1}}">
+<form bindsubmit="submit1">
+<view>取回方式：手机短信</view>
+<view><input type="number" name="phone" maxlength="11" placeholder="请输入手机号" bindinput="getphone" class="{{validphone?'valid':'invalid'}}" /><text>大陆11位数字手机号</text></view>
+<view>
+<input type="number" name="picCode" maxlength="6" value="{{picCode}}" placeholder="请输入图形验证码" bindfocus="verifyImg" bindinput="setpicCode"/><image src="{{VerifyImg}}" mode="aspectFit" bindtap="changeVerifyImg" />
+</view>
+<view><input type="number" name="code" id="code" maxlength="8" placeholder="请输入短信验证码" /><view id="send" bindtap="sendmsgcode">发　送</view></view>
+<button form-type="submit">下一步</button>
+</form>
+</block>
+<block wx:else>
+<form bindsubmit="submit2">
+<view><input type="text" name="password" password="password" placeholder="请输入新密码" /><text>密码长度至少8位字符</text></view>
+<view><input type="text" name="password2" password="password" placeholder="请再次输入密码" /></view>
+<button form-type="submit">修改密码</button>
+</form>
+</block>

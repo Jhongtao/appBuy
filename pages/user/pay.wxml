@@ -1,0 +1,119 @@
+<!--pages/user/pay.wxml-->
+<view class="panel">
+<view class="panelhead s{{s}}" bindtap="switchs">
+<text>支付帐户</text><text>提现列表</text>
+</view>
+<block wx:if="{{s==1}}">
+<block wx:if="{{!payInfo}}">
+<view class="alert" bindtap="switchss">暂未注册账号信息，点此注册支付账号。</view>
+</block>
+<block wx:else>
+<view class="info" bindtap="switchss">已经注册支付帐号，点此提现。</view>
+<view class="table">
+<view><view>交易名称：</view><view>{{payInfo.TradeMemBerName}}<view style="color:#DE0144;font-size:12px;">此名称就是汇款时的账户名称</view></view></view>
+<view><view>证件号码：</view><view>{{payInfo.PapersCodeMask?payInfo.PapersCodeMask:payInfo.PapersCode}}<text bindtap="switchmask" data-field="PapersCode">{{payInfo.PapersCodeMask?'查看':'隐藏'}}</text></view></view>
+<view><view>手机号码：</view><view>{{payInfo.PhoneMask?payInfo.PhoneMask:payInfo.Phone}}<text bindtap="switchmask" data-field="Phone">{{payInfo.PhoneMask?'查看':'隐藏'}}</text></view></view>
+<view><view>交易账户：</view><view>{{payInfo.OthBankPayeeSubAccMask?payInfo.OthBankPayeeSubAccMask:payInfo.OthBankPayeeSubAcc}}<text bindtap="switchmask" data-field="OthBankPayeeSubAcc">{{payInfo.OthBankPayeeSubAccMask?'查看':'隐藏'}}</text><text bindtap="switchss">充值</text></view></view>
+<view><view>账户余额：</view><view>{{balance}}<text bindtap="checkbalance">{{balance=='***'?'查看':'刷新'}}</text></view></view>
+<view><view>开户银行：</view><view>{{payInfo.OthBankPayeeSubAccSetteName}}</view></view>
+</view>
+<block wx:if="{{ss==2}}">
+<view class="h" bindtap="switchss">隐藏提现信息</view>
+<view class="table">
+<view><view>户名：</view><view>{{payInfo.SettleAccountName}}</view></view>
+<view><view>卡号：</view><view>{{payInfo.SettleAccountMask?payInfo.SettleAccountMask:payInfo.SettleAccount}}<text bindtap="switchmask" data-field="SettleAccount">{{payInfo.SettleAccountMask?'查看':'隐藏'}}</text></view></view>
+<view><view>开户行：</view><view>{{payInfo.BankName}}</view></view>
+</view>
+</block>
+<block wx:else>
+<view class="h" bindtap="switchss">查看提现信息</view>
+</block>
+</block>
+</block>
+<block wx:else>
+<view class="list">
+<view>
+<text>交易会员</text>
+<text>提现银行卡</text>
+<text>开户行</text>
+<text>提现金额</text>
+<text>提现时间</text>
+<text>状态</text>
+</view>
+<block wx:if="{{drawList.length==0}}">
+<view><text>暂无数据</text></view>
+</block>
+<block wx:else>
+<view wx:for="{{drawList}}" wx:for-item="item" wx:key="index">
+<text>{{item.TradeMemBerName}}</text>
+<text>{{item.SettleAccount}}</text>
+<text>{{item.BankName}}</text>
+<text>{{item.Price}}</text>
+<text>{{item.CreateTime}}</text>
+<text>{{item.Status}}</text>
+</view>
+</block>
+</view>
+</block>
+</view>
+
+<view class="model {{ss<2?'show':'hide'}}">
+<view class="modelhead" bindtap="switchss">注册支付账号</view>
+<scroll-view scroll-y>
+<block wx:if="{{ss==1}}">
+<form>
+<view><radio-group name="zhType"  bindchange="radioChange">
+绑定账户类型：<radio value="1" checked />个人  <radio value="0" />企业
+</radio-group></view>
+<view><input type="text" name="name"  placeholder="请输入帐户绑定人的姓名" /></view>
+<view><input type="text" name="sfz" placeholder="请输入身份证号" /></view>
+<view><input type="text" name="phone" placeholder="请输入绑定手机号" bindinput="getphone" class="{{validphone?'valid':'invalid'}}" /><text>大陆11位数字手机号</text></view>
+<view><input type="number" name="picCode" id="picCode" maxlength="6" bindfocus="verifyImg" class="{{picCode.length<6?'invalid':''}}" bindinput="setpicCode" value="{{picCode}}" placeholder="请输入图形验证码" /><image src="{{VerifyImg}}" mode="aspectFit" bindtap="changeVerifyImg" /><text>6位数字图形验证码</text></view>
+<view><input type="number" name="code" id="code" maxlength="8" placeholder="请输入短信验证码" /><view id="send" bindtap="sendmsgcode">发　送</view><text>6位数字短信验证码</text></view>
+<button form-type="submit" type="primary">立即注册</button>
+</form>
+</block>
+<block wx:else>
+<form>
+<view><radio-group name="zhType"  bindchange="radioChange">
+绑定账户类型：<radio value="1" />个人  <radio value="0" checked />企业
+</radio-group></view>
+<view><input type="text" name="name" placeholder="请输入企业名称" /></view>
+<view><input type="text" name="Contact" placeholder="请输入企业联系人" /></view>
+<view>
+<input type="text" name="ContactPhone" placeholder="请输入企业联系电话" />
+</view>
+<view><input type="text" name="ContactAddr" placeholder="请输入企业联系地址" /></view>
+<view><input type="text" name="BusinessName" placeholder="请输入法人姓名" /></view>
+<view><input type="text" name="sfz" placeholder="请输入组织机构代码" /></view>
+<view><input type="text" name="phone" placeholder="请输入绑定手机号" bindinput="getphone" class="{{validphone?'valid':'invalid'}}" /><text>大陆11位数字手机号</text></view>
+<view><input type="number" name="picCode" id="picCode" maxlength="6" bindfocus="verifyImg" class="{{picCode.length<6?'invalid':''}}" bindinput="setpicCode" value="{{picCode}}" placeholder="请输入图形验证码" /><image src="{{VerifyImg}}" mode="aspectFit" bindtap="changeVerifyImg" /><text>6位数字图形验证码</text></view>
+<view><input type="number" name="code" id="code" maxlength="8" placeholder="请输入短信验证码" /><view id="send" bindtap="sendmsgcode">发　送</view><text>6位数字短信验证码</text></view>
+<button form-type="submit" type="primary">立即注册</button>
+</form>
+</block>
+</scroll-view>
+</view><view bindtap="switchss"></view>
+
+<view class="model {{ss==4?'show':'hide'}}">
+<view class="modelhead" bindtap="switchss">提现</view>
+<form>
+<view>
+<input type="digit" name="price" placeholder="请输入提现金额" />
+<text>最多可提现{{balance}}元</text>
+</view>
+<button form-type="submit">提现</button>
+</form>
+</view><view bindtap="switchss"></view>
+
+<view class="model  {{ss==5?'show':'hide'}}">
+<view class="modelhead" bindtap="switchss">充值步骤</view>
+<scroll-view scroll-y="scroll-y">
+<text class="red">1.汇款时的账户名称即为交易名称，请不要输错</text>
+<text>2.使用任何银行的手机银行往交易账户(991开头)转账</text>
+<text>3.交易账户的开户行请选择"华夏银行"</text>
+<text>4.转账成功以后，一般1-3分钟会到账，请3分钟后刷新余额</text>
+<text class="red">5.暂不支持支付宝、微信转帐，仅支持（手机）银行转帐，敬请谅解</text>
+</scroll-view>
+<view class="modelfoot"><button size="mini" bindtap="switchss">确定</button></view>
+</view><view bindtap="switchss"></view>

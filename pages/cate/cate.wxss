@@ -1,0 +1,64 @@
+/* pages/index/cate.wxss */
+navigator#search{
+  display:block;
+  width:100vw;
+  padding:6px 10vw 14px 10vw;
+  background:#2655B6;
+  position:fixed;
+  left:0;top:0;
+  box-shadow:0 0 9px rgba(0,0,0,0.5);
+}
+
+navigator#search::before{
+  content:"搜索商品";
+  color:#2655B6;
+  display:block;
+  width:80vw;
+  height:32px;
+  box-sizing:border-box;
+  padding-left:32px;
+  padding-top:6px;
+  background-color:#fff;
+  border-radius:16px;
+  box-shadow:1px 1px 3px rgba(0,0,0,0.6) inset;
+  z-index:100;
+  background-image:url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCAxNyAxNyIgd2lkdGg9IjE3IiBoZWlnaHQ9IjE3Ij48Y2lyY2xlIGN4PSI4IiBjeT0iOCIgcj0iNyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMjY1NUI2IiBzdHJva2Utd2lkdGg9IjIiPjwvY2lyY2xlPjxsaW5lIHgxPSIxMyIgeTE9IjEzIiB4Mj0iMTYiIHkyPSIxNiIgc3Ryb2tlPSIjMjY1NUI2IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS13aWR0aD0iMiIgLz48L3N2Zz4=);
+  background-size:17px 17px;
+  background-repeat:no-repeat;
+  background-position:11px 9px;
+}
+
+#cate{
+  margin-top:53px;
+  background-color:#f6f6f6;
+  padding-bottom:16px;
+}
+
+#cate view.s{
+  padding-left:20px;padding-top:6px;
+  box-sizing:border-box;
+  color:#666;
+  text-shadow:1px 1px 0 #fff,2px 2px 2px rgba(0,0,0,0.6);
+}
+#cate view.s::after{
+  content:"";
+  display:inline-block;
+  width:16px;height:16px;
+  background-size:16px 16px;
+  background-image:url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCAxNiAxNiIgd2lkdGg9IjE2IiBoZWlnaHQ9IjE2Ij48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiM5OTkiIGQ9Ik0wLDZoNyIgLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2U9IiM4ODgiIGQ9Ik0wLDEwaDExIiAvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzc3NyIgZD0iTTAsMTRoMTUiIC8+PC9zdmc+);
+  background-repeat:no-repeat;
+  margin-left:6px;
+}
+
+#cate view.ss{
+  margin-left:12px;background-color:#fff;
+  border-top-left-radius:24px;
+  padding-bottom:6px;
+  padding-right:14px;
+  margin-top:6px;
+}
+
+#cate view.ss>text{display:block; color:#999; padding-left:16px;
+ padding-right:12px;padding-bottom:6px;}
+
+#cate view.sss>navigator{display:inline-block;padding:6px 16px 6px 16px;font-size:14px;color:#4C6494;margin-right:-16px;}

@@ -1,0 +1,35 @@
+<!--pages/user/orderDtl.wxml-->
+<view class="panel">
+<view class="panelheader">订单信息</view>
+<view class="panelbody">
+<block wx:if="order.IsExpress">
+<view>收货地址：{{order.RecAddress}}</view>
+</block>
+<block wx:else>
+<view>收货地址：商家自提点 {{order.DeliveryAddress}}</view>
+</block>
+<view>　收货人：{{order.RecUser}}  {{order.RecPhone}}</view>
+<view>订单编号：{{order.OrderId}}</view>
+</view>
+<view class="clear"></view>
+<view class="panelbody">
+<view>订单状态：<block wx:if="{{ss}}"><text class="st st{{order.Status}}">{{order.StatusName}}</text><text class="more"></text>
+</block>
+<view wx:else class="steps">
+<view><text>拍下商品</text><text>2019-4-12 10:54:59</text></view>
+<view><text>买家付款</text><text>2019-4-12 10:54:59</text></view>
+<view><text>商家配货</text><text>2019-4-12 10:54:59</text></view>
+<view><text>物流取件</text><text>2019-4-12 10:54:59</text></view>
+<view><text>卖家发货</text><text>2019-4-12 15:12:52</text></view>
+<view><text>确认收货</text><text></text></view>
+</view>
+</view>
+<view>金额总计：<text class="meo">{{order.TotalPrice}}</text>（包含快递费{{order.ExpressFee}}元）</view>
+<view>物流公司：{{order.Discounts}} </view>
+<view>快递单号：{{order.ExpressNumber}}</view>
+</view>
+</view>
+<view class="panel">
+<view class="panelheader">商家：{{order.SeRealName}}</view>
+<view class="panelbody"></view>
+</view>

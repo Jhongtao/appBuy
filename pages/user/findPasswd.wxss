@@ -1,0 +1,27 @@
+/* pages/user/findPasswd.wxss */
+.masthead{
+  border-bottom:1px solid #ccc;
+  margin:4px;text-align:center;
+  color:#ccc;height:46px;
+  box-sizing:border-box;
+}
+.masthead>text{display:inline-block;
+padding:12px 24px;color:#555;
+}
+.masthead.s1>text:nth-of-type(1),.masthead.s2>text:nth-of-type(2){
+  color:#2655B6;
+}
+
+/*
+.masthead::before{
+  content:"";position:absolute;
+  display:block;
+  width:20px;height:46px;
+  background:url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHZpZXdCb3g9IjAgMCAyMCA0NiIgd2lkdGg9IjIwIiBoZWlnaHQ9IjQ2Ij48cGF0aCBkPSJNMCwwTDE2LDIxTDAsNDIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzI2NTVCNiIgLz48L3N2Zz4=) no-repeat;
+  left:33.3%;top:0;
+  margin-left:-10px;
+}*/
+form{margin:14px;}
+form view{min-height:48px;position:relative;}
+
+form image,#send{position:absolute;right:0;top:0;width:120px;height:28px;padding:4px 12px;background-color:#2655B6;border-radius:14px;background-image:linear-gradient(to bottom,#2E63BF,#4882E6);min-height:20px;color:#fff;text-align:center;font-size:13px;box-sizing:border-box;}

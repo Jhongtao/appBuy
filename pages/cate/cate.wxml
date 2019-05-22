@@ -1,0 +1,18 @@
+<!--pages/index/cate.wxml-->
+<navigator id="search" url="/pages/products/products"></navigator>
+<view id="cate">
+<block wx:for="{{cate}}" wx:for-item="s" wx:key="index">
+<navigator class="s" url="/pages/products/products?cid={{s.Id}}&cname={{s.CategoryName}}">{{s.CategoryName}}</navigator>
+<block wx:for="{{s.children}}"  wx:for-item="ss" wx:key="index">
+<view class="ss">
+<navigator url="/pages/products/products?cid={{ss.Id}}">
+{{ss.CategoryName}}</navigator>
+<view class="sss">
+<block wx:for="{{ss.children}}" wx:for-item="sss" wx:key="index">
+<navigator url="/pages/products/products?cid={{sss.Id}}&cname={{sss.CategoryName}}">
+{{sss.CategoryName}}</navigator>
+</block></view>
+</view>
+</block>
+</block>
+</view>

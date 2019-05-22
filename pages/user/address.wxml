@@ -1,0 +1,33 @@
+<!--pages/user/address.wxml-->
+<view class="panel">
+<view class="panelhead"><text>收货地址</text><text bindtap="switchs">添加收货地址</text></view>
+<scroll-view scroll-y="true">
+<block wx:if="{{addressList.length==0}}">
+<image src="../img/unfound.svg" class="pp" mode="aspectFit" />
+</block>
+<block wx:else>
+<view class="listitem" wx:for="{{addressList}}" wx:for-item="item" wx:key="index">
+<view><text>{{item.ReUser}}</text><text wx:if="{{item.IsDefault}}" class="checkmark">默认地址</text>
+</view>
+<view><text>省市区：</text>{{item.regionName}}</view>
+<view><text>详细地址：</text>{{item.Address}}</view>
+<view><text>邮政编码：</text>{{item.PostCode}}</view>
+<view><text>手机号：</text>{{item.RePhone}}</view>
+<view><text data-index="{{index}}" bindtap="modiaddress">修改</text><text data-index="{{index}}" bindtap="deladdress">删除</text></view>
+</view>
+</block>
+</scroll-view></view>
+<view class="model {{s?'show':'hide'}}">
+<view class="modelhead" bindtap="switchs">{{address.Id==0?'添加收货地址':'修改收货地址'}}</view>
+<form bindsubmit="saveAddress">
+<view>
+<picker mode="multiSelector" name="region" bindchange="getRegion" bindcolumnchange="changeRegion" value="{{regionVal}}" range="{{regionArr}}" bindcancel="resetRegion"><view wx:if="{{!regionName}}" class="placeholder">请选择省市区</view><view wx:else class="picker">{{regionName}}</view></picker><text></text>
+</view>
+<view><input type="text" name="address" placeholder="请填写详细地址" value="{{address.Address}}" /><text></text></view>
+<view><input type="number" name="postCode" placeholder="请填写邮政编码" value="{{address.PostCode}}" maxlength="6" /><text></text></view>
+<view><input type="text" name="reUser" placeholder="请填写收货人姓名" value="{{address.ReUser}}"/><text></text></view>
+<view><input type="number" name="rePhone" placeholder="请填写收货人手机号" value="{{address.RePhone}}" maxlength="11"/><text></text></view>
+<view>默认地址？<switch name="IsDefault" checked="{{address.IsDefault}}" bindchange="switch1Change" /><text></text></view>
+<button form-type="submit">保存地址</button>
+</form>
+</view><view bindtap="switchs"></view>

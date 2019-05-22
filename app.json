@@ -1,0 +1,56 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/user/index",
+        "pages/cart/cart",
+        "pages/address/address",
+        "pages/user/order",
+        "pages/logs/logs",
+        "pages/cate/cate",
+        "pages/search/search",
+        "pages/products/products",
+        "pages/product/product",
+        "pages/info/info",
+        "pages/user/login",
+        "pages/user/findPasswd",
+        "pages/user/register",
+        "pages/user/pay",
+        "pages/user/invoice",
+        "pages/user/orderDtl",
+        "pages/cart2/cart2",
+        "pages/cart3/cart3",
+        "pages/cart5/cart5"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#2655B6",
+        "navigationBarTitleText": "在线商城",
+        "navigationBarTextStyle": "white"
+    },
+    "tabBar": {
+        "color": "#999999",
+        "selectedColor": "#2655B6",
+        "backgroundColor": "#ffffff",
+        "position": "bottom",
+        "list": [{
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "pages/img/home.png",
+                "selectedIconPath": "pages/img/home2.png"
+            },
+            {
+                "pagePath": "pages/cart/cart",
+                "text": "购物车",
+                "iconPath": "pages/img/cart.png",
+                "selectedIconPath": "pages/img/cart2.png"
+            },
+            {
+                "pagePath": "pages/user/index",
+                "text": "会员中心",
+                "iconPath": "pages/img/user.png",
+                "selectedIconPath": "pages/img/user2.png"
+            }
+        ]
+    },
+    "sitemapLocation": "sitemap.json"
+}

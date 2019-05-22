@@ -1,0 +1,48 @@
+<!--pages/index/products.wxml-->
+<block wx:if="{{insearch}}">
+<form bindreset="resetkeyword" bindsubmit="searchkeyword">
+<input type="text" name="keyword" value="{{keyword}}" placeholder="请输入搜索关键词" bindinput="updatekeyword" />
+<button form-type="reset"></button>
+<button form-type="submit">搜一下</button>
+</form>
+<block wx:if="{{keyword.length>0}}">
+<view class="item">在<text>{{cateName}}</text>类目下搜索<text>{{keyword}}</text></view>
+<view class="item">在所有类目下搜索<text>{{keyword}}</text></view></block>
+<view class="item" bindtap="endsearch">取消搜索</view>
+<view id="history">
+<text>历史搜索词：</text>
+<block wx:for="{{allkeyword}}" wx:for-item="kk" wx:key="index">
+<text data-keyword="{{kk}}">{{kk}}</text>
+</block>
+</view>
+</block>
+<block wx:else>
+<view class="fixed">
+<view class="head">
+<text>{{cateName}}</text>
+<text class="searchhandler" bindtap="startsearch">{{keyword?keyword:'搜索关键词'}}</text>
+</view>
+<view class="orderby {{orderFiled}} {{isDesc?'desc':'asc'}}"><view data-orderFiled="zh" bindtap="ordersearch">综合</view>
+<view data-orderFiled="xl" bindtap="ordersearch">销量</view>
+<view data-orderFiled="sj" bindtap="ordersearch">新品</view>
+<view data-orderFiled="jg" bindtap="ordersearch">价格</view></view>
+</view>
+<view class="products">
+<block wx:if="{{products.length==0}}">
+<image src="../img/unfound.svg" class="pp" mode="aspectFit" />
+</block>
+<block wx:else>
+<block wx:for="{{products}}"  wx:for-item="item" wx:key="index">
+<navigator url="product?pid={{item.Id}}">
+<view class="product_image"><image src="http://120.27.218.55:8002/?id={{item.TopPic}}&t=" mode="aspectFit" /></view>
+<view class="product_thumb">
+<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="http://120.27.218.55:8002/?id={{g.ClassifyPic}}&t=" mode="aspectFit" /></block>
+</view>
+<text class="product_price">¥{{item.MinPrice}}</text><text class="product_sales">{{item.MaxSold}}件已卖</text>
+<view class="product_title">{{item.Title}}</view>
+<view class="product_shop">{{item.RealName}}</view>
+</navigator>
+</block>
+</block>
+</view>
+</block>

@@ -1,0 +1,26 @@
+<!--pages/user/invoice.wxml-->
+<view class="panel">
+<view class="panelhead s{{s}}" bindtap="switchs">
+<text>未开发票</text>
+<text>已开发票</text>
+<text>所有发票</text>
+<text>发票编辑</text>
+</view>
+<view class="listhead">
+<view>商家名称</view>
+<view>价格</view>
+<view>下单时间</view>
+<view>操作</view>
+</view>
+<view wx:if="{{List.length==0}}">
+<image src="../img/unfound.svg" class="pp" mode="aspectFit" />
+</view>
+<scroll-view wx:else scroll-y="scroll-y">
+<view class="listitem" wx:for="{{List}}" wx:for-item="item" wx:key="index">
+<view>{{item.SeRealName}}</view>
+<view>￥{{item.Discounts}}</view>
+<view>{{item.OrderTime}}</view>
+<view><navigator data-index="{{index}}" url="orderDtl?orderid={{item.OrderId}}">订单详情</navigator></view>
+</view>
+</scroll-view>
+</view>

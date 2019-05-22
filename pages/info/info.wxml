@@ -1,0 +1,53 @@
+<!--pages/user/info.wxml-->
+<view class="panel">
+<view class="panelhead">您的基础信息</view>
+<view class="table">
+<view><view>用户名：</view><view>{{UserName}}</view></view>
+<view><view>姓名/单位：</view><view>{{RealName}}</view></view>
+<view><view>手机号：</view><view>{{TelPhone}}</view></view>
+</view>
+</view>
+<view class="panel">
+<view class="panelhead">您的安全信息</view>
+<view class="table"><view><view>安全等级：</view><view><progress percent="{{safelevel}}" show-info stroke-width="12" activeColor="#2D8CF0" border-radius="6" active-mode="backwards" /></view></view>
+</view>
+
+<view class="table table2">
+<block wx:if="{{IsPwd}}">
+<view><view><image src="../img/bind.png" mode="aspectFit" /></view>
+<view><text>登录密码</text>
+安全性高的密码可以使账号更安全。建议您定期更换密码，且设置一个包含数字和字母，并长度超过6位以上的密码</view>
+<view><navigator class="nav" url="findPasswd">修改</navigator></view></view>
+</block>
+<block wx:else>
+<view><view><image src="../img/unbind.png" mode="aspectFit" /></view>
+<view><text>登录密码</text>
+安全性高的密码可以使账号更安全。建议您定期更换密码，且设置一个包含数字和字母，并长度超过6位以上的密码</view>
+<view><navigator class="nav" url="findPasswd">设置</navigator></view></view>
+</block>
+<block wx:if="{{IsSecret}}">
+<view><view><image src="../img/bind.png" mode="aspectFit" /></view>
+<view><text>密保问题</text>
+是您找回登录密码的方式之一。建议您设置一个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全</view>
+<view><navigator  class="nav" url="findPasswd">修改</navigator></view></view>
+</block>
+<block wx:else>
+<view><view><image src="../img/unbind.png" mode="aspectFit" /></view>
+<view><text>密保问题</text>
+是您找回登录密码的方式之一。建议您设置一个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全</view>
+<view><navigator class="nav" url="findPasswd">设置</navigator></view></view>
+</block>
+<block wx:if="{{IsPhone}}">
+<view><view><image src="../img/bind.png" mode="aspectFit" /></view>
+<view><text>绑定手机</text>
+是您找回登录密码的方式之一。建议您设置一个容易记住，且最不容易被他人获取的问题及答案，更有效保障您的密码安全</view>
+<view><navigator class="nav" url="findPasswd">修改</navigator></view></view>
+</block>
+<block wx:else>
+<view><view><image src="../img/unbind.png" mode="aspectFit" /></view>
+<view><text>绑定手机</text>
+绑定手机后，您即可享受淘宝丰富的手机服务，如手机找回密码等。</view>
+<view><navigator class="nav" url="findPasswd">设置</navigator></view></view>
+</block>
+</view>
+</view>
