@@ -14,6 +14,7 @@ Page({
 
     onLoad: function() {
         dataApi.homeSlideshow().then(res => {
+                // console.log(res)
                 if (res.data.Code != 0) return;
                 this.setData({
                     slideshow: res.data.Datas
@@ -28,7 +29,7 @@ Page({
         //     }
         // });
         dataApi.getGoodsJcyewm().then(res => {
-            // console.log(res)
+            console.log(res)
             if (res.data.Code != 0) return;
             var data = res.data.Datas;
             for (var i = 0; i < data.length; i++) {

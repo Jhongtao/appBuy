@@ -71,7 +71,7 @@
 </swiper>
 <block wx:for="{{productinfo.Classify}}"  wx:for-item="item" wx:key="index">
 <view id="pp{{index}}" class="item {{index==ppindex?'active':''}}" bindtap="changeppindex" data-ppindex="{{index}}">
-<image src="http://120.27.218.55:8002/?id={{item.ClassifyPic}}&t=" mode="aspectFit" />
+<image src="http:{{item.ClassifyPic}}" mode="aspectFit" />
 <text>{{item.ClassifyName}}</text>
 <view>库存{{item.Total}}{{item.FirstUnit}}
 已售{{item.SoldCount}}{{item.FirstUnit}}

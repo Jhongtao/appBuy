@@ -42,7 +42,13 @@ Page({
         var token = wx.getStorageSync('token');
         if (!token) return
         dataApi.checkToken({ token }).then(res => {
-            if (res.data.Code == 0) {
+            if (res.data.Code !== 0) {
+                wx.showToast({
+                    title: res.data.Msg,
+                    icon: 'none',
+                    duration: 1500
+                })
+            } else {
                 this.setData({ token: token });
                 dataApi.getUserCart({ token }).then(res => {
                     if (res.data.Code != 0) return;
@@ -73,11 +79,11 @@ Page({
                         AddressList: AddressList
                     })
                 })
+                dataApi.getInvoiceList({ token }).then(res => {
+                    var InvoiceList = res.data.Datas;
+                    this.setData({ InvoiceList: InvoiceList })
+                })
             }
-            dataApi.getInvoiceList({ token }).then(res => {
-                var InvoiceList = res.data.Datas;
-                this.setData({ InvoiceList: InvoiceList })
-            })
         })
 
         // wx.request({

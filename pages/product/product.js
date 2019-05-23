@@ -26,21 +26,28 @@ Page({
     onLoad: function(options) {
         var pid = options.pid;
         dataApi.getGoods({ id: pid }).then(res => {
+                // console.log(res)
                 if (res.data.Code != 0) return;
                 var data = res.data.Datas;
                 var Contents = Base64.decode(data.Contents);
+                var imgs = []
+                imgs.push(data.TopPic)
+                imgs.push(data.Imgs)
+                data.Imgs = imgs;
                 var ContentPics = Contents.match(/(http:\/\/120\.27\.218\.55:8002\/\?id=\w+)/g).map(function(item, index) { return item + '&t=' });
-                data.ContentPics = ContentPics[0];
+                data.ContentPics = ContentPics
+                    // data.ContentPics = ContentPics[0];
+
                 var contains = Contents.match(/[\d|\D]+<img/g)
                 var contain = contains[0].replace(/<\w+>|<\/\w+>|<img/g, '')
                     // console.log(contains)
                 data.contain = contain
-                var imgs = [data.TopPic];
-                imgs = imgs.concat(data.Classify.map(function(item, index) { return item.ClassifyPic }));
-                imgs = imgs.concat(data.Imgs.split(','));
-                imgs = imgs.map((item, index) => { return 'http://120.27.218.55:8002/?id=' + item + '&t='; });
-                data.Imgs = imgs;
+                    // var imgs = [data.TopPic];
+                    // imgs = imgs.concat(data.Classify.map(function(item, index) { return item.ClassifyPic }));
+                    // imgs = imgs.concat(data.Imgs.split(','));
+                    // imgs = imgs.map((item, index) => { return 'http://120.27.218.55:8002/?id=' + item + '&t='; });
 
+                // console.log(data.Imgs)
                 if (data.CategoryValue) {
                     var CategoryValue = '|' + data.CategoryValue + '|';
                     CategoryValue = CategoryValue.match(/\|(.*?),(.*?)(?=\|)/g).map(function(item, index) { return item.substring(1).split(','); });
@@ -52,6 +59,7 @@ Page({
                     pid: pid,
                     productinfo: data
                 });
+                // console.log(this.data.productinfo)
                 // console.log(this.data.productinfo)
                 var productHistory = app.globalData.history || [];
                 if (productHistory.map(function(item) { return item.Pid }).indexOf(data.Id) == -1) {
@@ -327,9 +335,16 @@ Page({
     },
     addcart: function() {
         if (this.data.token == '') {
-            wx.navigateTo({
-                url: '../user/login'
+            wx.showToast({
+                title: '您还未登入请先登入',
+                icon: 'none',
+                duration: 800
             })
+            setTimeout(() => {
+                wx.navigateTo({
+                    url: '/pages/login/login'
+                })
+            }, 800)
             return;
         }
         var pid = this.data.pid;
@@ -350,9 +365,16 @@ Page({
     },
     buy: function() {
         if (this.data.token == '') {
-            wx.navigateTo({
-                url: '../user/login'
+            wx.showToast({
+                title: '您还未登入请先登入',
+                icon: 'none',
+                duration: 800
             })
+            setTimeout(() => {
+                wx.navigateTo({
+                    url: '/pages/login/login'
+                })
+            }, 800)
             return;
         }
         var pid = this.data.pid;
@@ -381,9 +403,16 @@ Page({
     },
     viewcart: function() {
         if (this.data.token == '') {
-            wx.navigateTo({
-                url: '/pages/login/login'
+            wx.showToast({
+                title: '您还未登入请先登入',
+                icon: 'none',
+                duration: 800
             })
+            setTimeout(() => {
+                wx.navigateTo({
+                    url: '/pages/login/login'
+                })
+            }, 800)
             return;
         }
         var ss = this.data.viewcart;
@@ -504,6 +533,6 @@ Page({
             // });
     },
     tocart: function(e) {
-        wx.switchTab({ "url": '../user/cart' })
+        wx.switchTab({ "url": '/pages/cart/cart' })
     }
 })

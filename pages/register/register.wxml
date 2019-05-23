@@ -1,6 +1,7 @@
 <!--pages/user/register.wxml-->
 <view class="masthead">
-<navigator wx:if="{{false}}" url="/pages/login/login" open-type="navigateBack" >登录|</navigator><text>注册</text>
+<navigator url="/pages/personal/personal" open-type="switchTab">返回</navigator>
+<text>注册</text>
 </view><scroll-view scroll-y="scroll-y">
 <form bindsubmit="registeruser">
 <view>

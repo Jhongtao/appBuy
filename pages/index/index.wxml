@@ -1,8 +1,9 @@
 <!--index.wxml-->
 <!-- <navigator wx:if="{{false}}" id="search" url="search"></navigator> -->
+<view class="page">
 <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="orange" autoplay="autoplay" current="0" circular="circular">
 <block wx:for="{{slideshow}}" wx:for-item="item" wx:key="index">
-<swiper-item><image src="http://120.27.218.55:8002/?id={{item.Image}}&t=" mode="scaleToFill" /></swiper-item>
+<swiper-item><image src="https:{{item.Image}}"  /></swiper-item>
 </block>
 </swiper>
 <!-- <view id="nav" wx:if="{{false}}">
@@ -25,9 +26,9 @@
 <view class="pro-list">
 <block  wx:for="{{productsewm}}"  wx:for-item="item" wx:key="index">
 <navigator class="nav" url="/pages/product/product?pid={{item.Id}}">
-<view class="product_image"><image src="http://120.27.218.55:8002/?id={{item.TopPic}}&t=" mode="aspectFit" /></view>
+<view class="product_image"><image src="{{item.TopPic}}"  /></view>
 <view class="product_thumb">
-<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="http://120.27.218.55:8002/?id={{g.ClassifyPic}}&t=" mode="aspectFit" /></block>
+<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="{{g.ClassifyPic}}" mode="widthFix" /></block>
 <view class="prc-sale"><text class="product_price">¥{{item.MinPrice}}</text><text class="product_sales">{{item.MaxSold}}件已卖</text></view>
 </view>
 <view class="product_title">{{item.Title}}</view>
@@ -41,9 +42,9 @@
 <view class="pro-list">
 <block wx:for="{{productsBgsb}}"  wx:for-item="item" wx:key="index">
 <navigator class="nav" url="/pages/product/product?pid={{item.Id}}">
-<view class="product_image"><image src="http://120.27.218.55:8002/?id={{item.TopPic}}&t=" mode="aspectFit" /></view>
+<view class="product_image"><image src="{{item.TopPic}}" mode="aspectFit" /></view>
 <view class="product_thumb">
-<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="http://120.27.218.55:8002/?id={{g.ClassifyPic}}&t=" mode="aspectFit" /></block>
+<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="{{g.ClassifyPic}}" mode="widthFix" /></block>
 </view>
 <view class="prc-sale"><text class="product_price">¥{{item.MinPrice}}</text><text class="product_sales">{{item.MaxSold}}件已卖</text></view>
 <view class="product_title">{{item.Title}}</view>
@@ -57,9 +58,9 @@
 <view class="pro-list">
 <block wx:for="{{productsDzyqj}}"  wx:for-item="item" wx:key="index">
 <navigator class="nav" url="/pages/product/product?pid={{item.Id}}">
-<view class="product_image"><image src="http://120.27.218.55:8002/?id={{item.TopPic}}&t=" mode="aspectFit" /></view>
+<view class="product_image"><image src="{{item.TopPic}}" mode="aspectFit" /></view>
 <view class="product_thumb">
-<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="http://120.27.218.55:8002/?id={{g.ClassifyPic}}&t=" mode="aspectFit" /></block>
+<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="{{g.ClassifyPic}}" mode="aspectFit" /></block>
 </view>
 <view class="prc-sale"><text class="product_price">¥{{item.MinPrice}}</text><text class="product_sales">{{item.MaxSold}}件已卖</text></view>
 <view class="product_title">{{item.Title}}</view>
@@ -72,4 +73,5 @@
 <text>版权所有：浙江标点信息科技有限公司</text>
 <text>公司地址：浙江省绍兴市稽山街道阳明北路683号705室</text>
 <text>Copyright 2009-2020 Corporation,AllRights Reserved.</text>
+</view>
 </view>
