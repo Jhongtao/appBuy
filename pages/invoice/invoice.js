@@ -7,7 +7,15 @@ Page({
     data: {
         s: 1,
         token: '',
-        List: []
+        List: [],
+        invoiceEdit: false,
+        typeArray: [],
+        typeValue: [],
+        titleArray: [],
+        titleValue: [],
+        contentArray: [],
+        contentValue: [],
+        index: 0
     },
 
     /**
@@ -47,14 +55,18 @@ Page({
             // });
     },
     loadData: function(s) {
-        var task = dataApi.getUserInvoiceWk({ "token": this.data.token })
-        var url = 'https://shoptest.jzyglxt.com/Order/GetUserInvoiceWk';
+
+        var task;
+        if (s == 1) task = dataApi.getUserInvoiceWk({ "token": this.data.token })
+            // var url = 'https://shoptest.jzyglxt.com/Order/GetUserInvoiceWk';
         if (s == 2) task = dataApi.getUserInvoiceYk({ "token": this.data.token })
             // url = 'https://shoptest.jzyglxt.com/Order/GetUserInvoiceYk';
-        else if (s == 3) task = dataApi.getAllUserInvoice()
+        if (s == 3) task = dataApi.getAllUserInvoice({ "token": this.data.token })
             //  url = 'https://shoptest.jzyglxt.com/Order/GetAllUserInvoice';
             //else if (s == 4) url = 'https://shoptest.jzyglxt.com/User/GetInvoiceList';
+        if (s == 4) task = dataApi.getInvoiceList({ "token": this.data.token })
         task.then(res => {
+                console.log(res.data)
                 if (res.data.Code == 0) {
                     var List = res.data.Datas;
                     List.forEach(function(item, index) {
@@ -96,5 +108,61 @@ Page({
         // else if (offsetLeft == 236) { s = 4; }
         this.setData({ s: s });
         this.loadData(s);
-    }
+    },
+    invoiceEdit(e) {
+        var index = e.currentTarget.dataset.index;
+        var editList = {}
+        editList.InvTitleTypeName = this.data.List[index].InvTitleTypeName
+        this.setData({
+            invoiceEdit: true
+        })
+        dataApi.getInvContentType({ token: this.data.token }).then(res => {
+            if (res.data.Code != 0) return
+            var arr = [],
+                value = []
+            res.data.Datas.forEach(item => {
+                arr.push(item.Name)
+                value.push(item.Id)
+            })
+            this.setData({
+                contentArray: arr,
+                contentValue: value
+            })
+            console.log(res)
+        })
+        dataApi.getInvTitleType({ token: this.data.token }).then(res => {
+            if (res.data.Code != 0) return
+            var arr = [],
+                value = []
+            res.data.Datas.forEach(item => {
+                arr.push(item.Name)
+                value.push(item.Id)
+            })
+            this.setData({
+                titleArray: arr,
+                titleValue: value
+            })
+            console.log(res)
+        })
+        dataApi.getInvoiceType({ token: this.data.token }).then(res => {
+            if (res.data.Code != 0) return
+            var arr = [],
+                value = []
+            res.data.Datas.forEach(item => {
+                arr.push(item.Name)
+                value.push(item.Id)
+            })
+            this.setData({
+                typeArray: arr,
+                typeValue: value
+            })
+            console.log(res)
+        })
+    },
+    closeEdit() {
+        this.setData({
+            invoiceEdit: false
+        })
+    },
+    invoiceDel() {}
 })

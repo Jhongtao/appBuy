@@ -12,6 +12,7 @@ Page({
         drawList: [],
         VerifyImg: '/img/code.svg',
         picCode: '',
+        picId: '',
         phone: '',
         validphone: false,
         token: ''
@@ -66,15 +67,15 @@ Page({
         this.loadData(s);
     },
     switchss: function(e) {
-        //console.log(e);
+        console.log(e);
         var text = e._relatedInfo.anchorTargetText;
         var ss = 3;
         if (e.type == 'tap') {
-            if (text == '暂未注册账号信息，点此注册支付账号。') ss = 1;
+            if (text == '暂未注册账号信息，点此注册支付账号') ss = 1;
             else if (text == '查看提现信息') ss = 2;
             //else if (text =='隐藏提现信息')ss=3;
             //else if (text =='注册支付账号'||text=='提现'||text=='充值步骤'||text=='')ss=3;
-            else if (text == '已经注册支付帐号，点此提现。') ss = 4;
+            else if (text == '已经注册支付帐号，点此提现') ss = 4;
             else if (text == '充值') ss = 5;
             this.setData({ ss: ss })
         }
@@ -85,25 +86,38 @@ Page({
                 dataApi.getPayInfo({ "token": this.data.token }).then(res => {
                     var data = res.data;
                     if (data.Code == 0) {
+                        console.log(data)
                         var payInfo = data.Datas;
                         payInfo.balance = '***';
                         var PapersCodeMask = payInfo.PapersCode;
-                        PapersCodeMask = PapersCodeMask.replace(/^(\w{3})(\w+)(\w{3})$/, '$1***$3');
+                        PapersCodeMask = PapersCodeMask.replace(/^(\w{3})(\w+)(\w{3})$/, `$1${'*'.repeat(PapersCodeMask.length-6)}$3`);
                         payInfo.PapersCodeMask = PapersCodeMask;
                         var PhoneMask = payInfo.Phone;
-                        PhoneMask = PhoneMask.replace(/^(\w{3})(\w+)(\w{3})$/, '$1***$3');
+                        PhoneMask = PhoneMask.replace(/^(\w{3})(\w+)(\w{3})$/, `$1${'*'.repeat(PhoneMask.length-6)}$3`);
                         payInfo.PhoneMask = PhoneMask;
                         var OthBankPayeeSubAcMask = payInfo.OthBankPayeeSubAcc;
-                        OthBankPayeeSubAcMask = OthBankPayeeSubAcMask.replace(/^(\w{3})(\w+)(\w{3})$/, '$1***$3');
+                        OthBankPayeeSubAcMask = OthBankPayeeSubAcMask.replace(/^(\w{3})(\w+)(\w{3})$/, `$1${'*'.repeat(OthBankPayeeSubAcMask.length-6)}$3`);
                         payInfo.OthBankPayeeSubAccMask = OthBankPayeeSubAcMask;
-                        var SettleAccountMask = payInfo.SettleAccount;
-                        SettleAccountMask = SettleAccountMask.replace(/^(\w{3})(\w+)(\w{3})$/, '$1***$3');
-                        payInfo.SettleAccountMask = SettleAccountMask;
+                        if (payInfo.SettleAccount) {
+                            var SettleAccountMask = payInfo.SettleAccount;
+                            SettleAccountMask = SettleAccountMask.replace(/^(\w{3})(\w+)(\w{3})$/, `$1${'*'.repeat(SettleAccountMask.length-6)}$3`);
+                            payInfo.SettleAccountMask = SettleAccountMask;
+                        }
                         this.setData({
                             payInfo: payInfo
                         });
                     }
                 })
+            dataApi.checkBalance({ "token": this.data.token }).then(res => {
+                    var data = res.data;
+                    if (data.Code == 0) {
+                        var balance = data.Datas;
+                        this.setData({
+                            balance: balance
+                        })
+                    }
+                })
+                // w
                 // wx.request({
                 //     url: 'https://shoptest.jzyglxt.com/Pay/GetPayInfo',
                 //     method: 'post',
@@ -370,7 +384,7 @@ Page({
             delete payInfo[field + 'Mask'];
         } else {
             var str = payInfo[field];
-            str = str.replace(/^(\w{3})(\w+)(\w{3})$/, '$1***$3');
+            str = str.replace(/^(\w{3})(\w+)(\w{3})$/, `$1${'*'.repeat(str.length-6)}$3`);
             payInfo[field + 'Mask'] = str;
         }
         this.setData({

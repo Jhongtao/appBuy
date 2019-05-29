@@ -1,26 +1,90 @@
-<!--pages/user/invoice.wxml-->
+<!-- pages/user/invoice.wxml -->
 <view class="panel">
-<view class="panelhead s{{s}}">
-<text data-id="1" bindtap="switchs">未开发票</text>
-<text data-id="2" bindtap="switchs">已开发票</text>
-<text data-id="3" bindtap="switchs">所有发票</text>
-<text data-id="4" bindtap="switchs">发票编辑</text>
-</view>
-<view class="listhead">
-<view>商家名称</view>
-<view>价格</view>
-<view>下单时间</view>
-<view>操作</view>
-</view>
-<view wx:if="{{List.length==0}}">
-<image src="/img/unfound.svg" class="pp" mode="aspectFit" />
-</view>
-<scroll-view wx:else scroll-y="scroll-y">
-<view class="listitem" wx:for="{{List}}" wx:for-item="item" wx:key="index">
-<view>{{item.SeRealName}}</view>
-<view>￥{{item.Discounts}}</view>
-<view>{{item.OrderTime}}</view>
-<view><navigator data-index="{{index}}" url="orderDtl?orderid={{item.OrderId}}">订单详情</navigator></view>
-</view>
-</scroll-view>
+    <view class="panelhead s{{s}}">
+        <text data-id="1" bindtap="switchs">未开发票</text>
+        <text data-id="2" bindtap="switchs">已开发票</text>
+        <text data-id="3" bindtap="switchs">所有发票</text>
+        <text data-id="4" bindtap="switchs">发票编辑</text>
+    </view>
+    <view wx:if="{{s!=4}}" class="listhead">
+        <view>商家名称</view>
+        <view>价格</view>
+        <view>下单时间</view>
+        <view>操作</view>
+    </view>
+      <view wx:if="{{s==4}}" class="listhead">
+        <view>发票类型</view>
+        <view>发票抬头</view>
+        <view>发票明细</view>
+        <view>操作</view>
+    </view>
+    <view wx:if="{{List.length==0}}">
+        <image src="/img/unfound.svg" class="pp" mode="aspectFit" />
+    </view>
+    <scroll-view wx:else scroll-y="scroll-y">
+        <view wx:if="{{s!=4}}" class="listitem" wx:for="{{List}}" wx:for-item="item" wx:key="index">
+            <view>{{item.SeRealName}}</view>
+            <view>￥{{item.Discounts}}</view>
+            <view>{{item.OrderTime}}</view>
+            <view>
+                <navigator data-index="{{index}}" url="/pages/orderDtl/orderDtl?orderid={{item.OrderId}}">
+                    订单详情
+                </navigator>
+            </view>
+        </view>
+        <view wx:if="{{s==4}}" class="listitem" wx:for="{{List}}" wx:for-item="item" wx:key="index">
+            <view>{{item.InvTypeName}}</view>
+            <view>{{item.InvoiceTitle}}</view>
+            <view>{{item.InvContentName}}</view>
+            <view>
+                <text class="edit" data-index="{{index}}" bindtap="invoiceEdit">编辑</text>
+                <text class="del" data-index="{{index}}" bindtap="invoiceDel">删除</text>
+                <!-- <navigator data-index="{{index}}" url="/pages/orderDtl/orderDtl?orderid={{item.OrderId}}">
+                    订单详情
+                </navigator> -->
+                <view wx:if="{{invoiceEdit}}" class="invoice-edit">
+                    <form bindsubmit="formSubmit" bindreset="formReset" class="from-content">
+                    <view class="title">
+                    <text >编辑发票</text>
+                    <text catchtap="closeEdit">X</text>
+                    </view>
+                    <view class="content">
+                        <view class="list-item">
+                            <view >发票类型:</view>
+                              <picker bindchange="bindPickerChange" value="{{index}}" range="{{typeArray}}">
+                                <view class="picker">{{typeArray[index]}}</view>
+                            </picker>
+                        </view>
+                        <view class="list-item">
+                            <view >发票抬头类型:</view>
+                            <picker bindchange="bindPickerChange" value="{{index}}" range="{{titleArray}}">
+                                <view class="picker">{{titleArray[index]}}</view>
+                            </picker>
+                        </view>
+                        <view class="list-item">
+                            <view >发票抬头:</view>
+                            <input type="text" value="{{}}" name=""/>
+                        </view>
+                        <view class="list-item">
+                            <view>发票内容:</view>
+                            <picker bindchange="bindPickerChange" value="{{index}}" range="{{contentArray}}">
+                                <view class="picker">{{contentArray[index]}}</view>
+                            </picker>
+                        </view>
+                        <view class="list-item">
+                            <view >备注:</view>
+                            <textarea name="" id="" cols="30" rows="10"></textarea>
+                        </view>
+                    <view class="list-item">
+                        <button form-type="submit">清空数据</button>
+                        <button form-type="reset">保存发票</button>
+                    </view>
+                    </view>
+                   
+
+                  </form>
+                </view>
+            </view>
+        </view>
+    </scroll-view>
 </view>

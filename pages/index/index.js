@@ -13,7 +13,10 @@ Page({
     },
 
     onLoad: function() {
-        dataApi.homeSlideshow().then(res => {
+        const task1 = dataApi.homeSlideshow(),
+            taks2 = dataApi.getGoodsJcyewm(),
+            task3 = dataApi.getGoodsBgsb()
+        task1.then(res => {
                 // console.log(res)
                 if (res.data.Code != 0) return;
                 this.setData({
@@ -28,7 +31,7 @@ Page({
 
         //     }
         // });
-        dataApi.getGoodsJcyewm().then(res => {
+        taks2.then(res => {
             console.log(res)
             if (res.data.Code != 0) return;
             var data = res.data.Datas;
@@ -78,7 +81,7 @@ Page({
         //     }
         // });
 
-        dataApi.getGoodsBgsb().then(res => {
+        task3.then(res => {
                 // console.log(res)
                 if (res.data.Code != 0) return;
 

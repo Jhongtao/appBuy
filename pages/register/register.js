@@ -8,6 +8,7 @@ Page({
         provinceCode: 0,
         cityCode: 0,
         areaCode: 0,
+        pws1: '',
         VerifyImg: '/img/code.svg',
         picId: '',
         phone: '',
@@ -18,7 +19,22 @@ Page({
         hasread: false,
         showmodel: false,
         phoneShow: false,
-        codeShow: false
+        codeShow: false,
+        validpsw: false,
+        validsfz: false,
+        sfzShow: true,
+        Zharray: ['企业', '个人'],
+        // objectZharray: [{
+        //         id: 10,
+        //         name: '企业'
+        //     },
+        //     {
+        //         id: 11,
+        //         name: '个人'
+        //     }
+        // ],
+        Zhindex: 1,
+        PapersType: 10
     },
     onLoad: function(options) {
         region.IdToVal.call(this);
@@ -49,6 +65,21 @@ Page({
         if (this.data.picId == '') {
             this.changeVerifyImg();
         }
+    },
+    bindZhType: function(e) {
+        console.log('picker发送选择改变，携带值为', e.detail.value)
+        if (e.detail.value == 0) {
+            this.setData({
+                Zhindex: e.detail.value,
+                PapersType: 10
+            })
+        } else {
+            this.setData({
+                Zhindex: e.detail.value,
+                PapersType: 16
+            })
+        }
+
     },
     changeVerifyImg(e) {
         dataApi.getPicVerify({ _: Math.random() }).then(res => {
@@ -93,6 +124,28 @@ Page({
             //             })
             //     }
             // })
+    },
+    checksfz(e) {
+        if (e.detail.value.length != 18) {
+            this.setData({
+                //  businesShow:true,
+                validsfz: false
+            })
+        } else {
+            this.setData({
+                // businesShow:true,
+                validsfz: true
+            })
+        }
+    },
+    checkrealName(e) {
+        if (e.detail.value.length < 2) {
+            wx.showToast({
+                title: '输入姓名不正确',
+                icon: 'none',
+                duration: 1500
+            })
+        }
     },
     getphone(e) {
         var phone = e.detail.value;
@@ -194,6 +247,33 @@ Page({
             //     }
             // })
     },
+    checkpsw1(e) {
+        if (e.detail.value.length < 8) {
+            this.setData({
+                //  businesShow:true,
+                validpsw: false
+            })
+        } else {
+            console.log('psw')
+            this.setData({
+                // businesShow:true,
+                validpsw: true
+            })
+            this.data.pws1 = e.detail.value
+        }
+
+    },
+    checkpsw2(e) {
+        if (e.detail.value != this.data.pws1) {
+            wx.showToast({
+                title: '两次输入密码不一致,请重新输入',
+                icon: 'none',
+                duration: 1500
+            })
+            return
+        }
+    },
+
     registeruser: function(e) {
         var obj = e.detail.value;
         console.log(obj);
@@ -205,7 +285,7 @@ Page({
             });
             return;
         }
-        if (obj.region.lenth !== 3) {
+        if (obj.region.length !== 3) {
             wx.showToast({
                 title: '请选择省市区',
                 icon: 'none',
@@ -223,7 +303,7 @@ Page({
         }
         if (obj.password == '' || obj.password.length < 8) {
             wx.showToast({
-                title: '密码不能少于6个字符',
+                title: '密码不能少于8个字符',
                 icon: 'none',
                 duration: 1000
             });
@@ -253,20 +333,21 @@ Page({
             });
             return;
         }
-        if (obj.code == '' || obj.code.length < 6) {
-            wx.showToast({
-                title: '请填写短信验证码',
-                icon: 'none',
-                duration: 1000
-            });
-            return;
-        }
+        // if (obj.code == '' || obj.code.length < 6) {
+        //     wx.showToast({
+        //         title: '请填写短信验证码',
+        //         icon: 'none',
+        //         duration: 1000
+        //     });
+        //     return;
+        // }
         if (!obj.checkbox || obj.checkbox.length == 0) {
             this.showmodel();
             return;
         }
         var password = md5(obj.password);
-        obj = Object.assign(obj, { verifyId: this.data.verifyId, province: this.data.regionId[0], city: this.data.regionId[1], area: this.data.regionId[2], password: password });
+        obj = Object.assign(obj, { verifyId: this.data.verifyId, province: this.data.regionId[0], city: this.data.regionId[1], area: this.data.regionId[2], password: password, PapersType: this.data.PapersType });
+        console.log(obj)
         delete obj.password2;
         delete obj.phone;
         delete obj.picCode;
@@ -286,7 +367,9 @@ Page({
                         icon: 'none',
                         duration: 1000,
                         success: function() {
-                            wx.navigateBack({ delta: 1 });
+                            setTimeout(() => {
+                                wx.navigateBack({ delta: 1 });
+                            }, 1000)
                         }
                     });
                 }

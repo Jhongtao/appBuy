@@ -196,7 +196,7 @@ Page({
                 });
                 setTimeout(function() {
                     wx.navigateTo({
-                        url: 'order?s=2',
+                        url: '/pages/order/order?s=2',
                     })
                 }, 1000);
             })

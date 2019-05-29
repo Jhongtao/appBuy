@@ -1,33 +1,55 @@
-<!--pages/user/index.wxml-->
+<!-- pages/user/index.wxml -->
 <view class="masthead">
-<block wx:if="{{userInfo}}">
-<image src="{{userInfo.avatarUrl}}" mode="scaleToFill" class="userface" />
-</block>
-<block wx:else>
-<button class="user-log" bindgetuserinfo="getUserInfo" open-type="getUserInfo">
-    <image src="/img/userface.png" mode="scaleToFill" class="userface" />
-</button>
-</block>
-<view class="login-in" wx:if="{{realname==''}}"><navigator url="/pages/login/login">会员登录</navigator> | <navigator url="/pages/register/register">注册帐号</navigator></view>
-<view class="login-in" wx:else>
-<text>欢迎您，{{realname}}！</text><navigator wx:if="{{false}}" url="/pages/info/info">完善用户信息/</navigator>  <navigator url="/pages/login/login">登出帐号</navigator>
-</view>
+    <block wx:if="{{userInfo}}">
+        <image src="{{userInfo.avatarUrl}}" mode="scaleToFill" class="userface" />
+    </block>
+    <block wx:else>
+        <button class="user-log" bindgetuserinfo="getUserInfo" open-type="getUserInfo">
+            <image src="/img/userface.png" mode="scaleToFill" class="userface" />
+        </button>
+    </block>
+    <!-- <view class="login-in" wx:if="{{realname==''}}"><navigator class='nav-login' url="/pages/login/login">会员登录</navigator> | <navigator class='nav-login' url="/pages/register/register">注册帐号</navigator></view> -->
+    <view class="login-in" wx:if="{{realname}}">
+        <text>欢迎您，{{realname}}！</text>
+        <navigator wx:if="{{false}}" url="/pages/info/info">完善用户信息/</navigator>
+    </view>
 </view>
 <view class="item-group">
-<view>帐号管理</view>
-<navigator url="/pages/info/info">安全设置<image class="zh-img" mode="widthFix" src="/img/safe.png" /><image class="right-img" mode="widthFix" src="/img/right.png" /></navigator>
-<navigator url="/pages/pay/pay">支付管理<image class="zh-img" mode="widthFix" src="/img/pay.png" /><image class="right-img" mode="widthFix" src="/img/right.png" /></navigator>
-<navigator url="/pages/order/order">订单管理<image class="zh-img" mode="widthFix" src="/img/order.png" /><image class="right-img" mode="widthFix" src="/img/right.png" /></navigator>
-<navigator url="/pages/address/address">收货地址<image class="zh-img" mode="widthFix" src="/img/address.png" /><image class="right-img" mode="widthFix" src="/img/right.png" /></navigator>
-<navigator url="/pages/invoice/invoice">发票管理<image class="zh-img" mode="widthFix" src="/img/invoice.png" /><image class="right-img" mode="widthFix" src="/img/right.png" /></navigator>
+    <view>帐号管理</view>
+    <navigator url="/pages/info/info">
+        安全设置
+        <image class="zh-img" mode="widthFix" src="/img/safe.png" />
+        <image class="right-img" mode="widthFix" src="/img/right.png" />
+    </navigator>
+    <navigator url="/pages/pay/pay">
+        支付管理
+        <image class="zh-img" mode="widthFix" src="/img/pay.png" />
+        <image class="right-img" mode="widthFix" src="/img/right.png" />
+    </navigator>
+    <navigator url="/pages/order/order">
+        订单管理
+        <image class="zh-img" mode="widthFix" src="/img/order.png" />
+        <image class="right-img" mode="widthFix" src="/img/right.png" />
+    </navigator>
+    <navigator url="/pages/address/address">
+        收货地址
+        <image class="zh-img" mode="widthFix" src="/img/address.png" />
+        <image class="right-img" mode="widthFix" src="/img/right.png" />
+    </navigator>
+    <navigator url="/pages/invoice/invoice">
+        发票管理
+        <image class="zh-img" mode="widthFix" src="/img/invoice.png" />
+        <image class="right-img" mode="widthFix" src="/img/right.png" />
+    </navigator>
 </view>
 <view wx:if="{{false}}" class="item-group">
-<view>卖家中心</view>
-<navigator>交易管理</navigator>
-<navigator>订单管理</navigator>
-<navigator>物流管理</navigator>
-<navigator>发布商品</navigator>
-<navigator>仓库商品</navigator>
-<navigator>在架商品</navigator>
-<navigator>下架商品</navigator>
+    <view>卖家中心</view>
+    <navigator>交易管理</navigator>
+    <navigator>订单管理</navigator>
+    <navigator>物流管理</navigator>
+    <navigator>发布商品</navigator>
+    <navigator>仓库商品</navigator>
+    <navigator>在架商品</navigator>
+    <navigator>下架商品</navigator>
 </view>
+<view class="exit" bindtap="exit" >退出帐号</view>

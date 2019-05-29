@@ -57,16 +57,18 @@
 <view class="listdt">订单信息</view>
 <view class="listbg">
 <block wx:for="{{CartGoods}}" wx:for-item="item" wx:key="index">
-<view class="item"><view><image src="http://120.27.218.55:8002/?id={{item.ClassifyPic}}&t=" mode="aspectFit" /></view>
+<view class="item"><view><image src="http:{{item.ClassifyPic}}" mode="aspectFit" /></view>
 <view><text>{{item.Title}}</text><text>{{item.ClassifyName}}</text><text>￥{{item.PrefPrice}} × {{item.BuyCount}} = ￥{{item.PrefPrice * item.BuyCount}}  </text></view>
 </view>
 </block>
 <view style="background-color:#f1f1f1;text-align:right;font-size:13px;padding:6px 12px 9px 12px;color:#555;line-height:1.5;">
-<view>应付金额：<text class="meo">{{totalPrice}}</text></view>
+<view>商品总额：<text class="meo">{{totalPrice}}</text></view>
+<view>快递费用：<text class="meo">{{expressPrice}}</text></view>
+<view>应付金额：<text class="meo">{{totalPrice+expressPrice}}</text></view>
 <view wx:if="{{IsExpress}}">寄送至：<block wx:for="{{AddressList}}" wx:for-item="item" wx:key="index"><block wx:if="{{item.IsDefault}}">{{item.ProvinceName}} {{item.CityName}} {{item.AreaName}}</block></block></view></view>
 </view>
 </scroll-view>
-<view class="actionbar"><view></view><view bindtap="SettleOrder">返回修改采购内容</view><view bindtap="SettleOrder2">提交订单</view></view>
+<view class="actionbar"><view></view><view bindtap="SettleOrder">返回修改采购内容</view><view class="settle-order" bindtap="SettleOrder2">提交订单</view></view>
 
 <view class="model {{ss==1?'show':'hide'}}">
 <view class="modelhead" bindtap="switchss">收货地址</view>

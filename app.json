@@ -1,6 +1,7 @@
 {
     "pages": [
         "pages/index/index",
+        "pages/invoice/invoice",
         "pages/personal/personal",
         "pages/cart/cart",
         "pages/address/address",
@@ -14,7 +15,7 @@
         "pages/findPasswd/findPasswd",
         "pages/register/register",
         "pages/pay/pay",
-        "pages/invoice/invoice",
+
         "pages/orderDtl/orderDtl",
         "pages/cart2/cart2",
         "pages/cart3/cart3",

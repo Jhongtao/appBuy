@@ -26,7 +26,7 @@ Page({
     onLoad: function(options) {
         var pid = options.pid;
         dataApi.getGoods({ id: pid }).then(res => {
-                // console.log(res)
+                console.log(res)
                 if (res.data.Code != 0) return;
                 var data = res.data.Datas;
                 var Contents = Base64.decode(data.Contents);
@@ -34,13 +34,18 @@ Page({
                 imgs.push(data.TopPic)
                 imgs.push(data.Imgs)
                 data.Imgs = imgs;
-                var ContentPics = Contents.match(/(http:\/\/120\.27\.218\.55:8002\/\?id=\w+)/g).map(function(item, index) { return item + '&t=' });
+                var ContentPics;
+
+                if (!Contents.match(/(http:\/\/120\.27\.218\.55:8002\/\?id=\w+)/g)) ContentPics = Contents.match(/\/\/[\w|\W]+.jpg/g).map(item => 'https:' + item)
+                else {
+                    ContentPics = Contents.match(/(http:\/\/120\.27\.218\.55:8002\/\?id=\w+)/g).map(function(item, index) { return item + '&t=' });
+                }
                 data.ContentPics = ContentPics
                     // data.ContentPics = ContentPics[0];
-
                 var contains = Contents.match(/[\d|\D]+<img/g)
-                var contain = contains[0].replace(/<\w+>|<\/\w+>|<img/g, '')
-                    // console.log(contains)
+                    // var contain = contains[0].replace(/<[\w|\W]*>|<\/[\w|\W]*>|<img/g, '')
+
+                var contain = contains[0].replace(/<[^>]+>|(<img)/g, "")
                 data.contain = contain
                     // var imgs = [data.TopPic];
                     // imgs = imgs.concat(data.Classify.map(function(item, index) { return item.ClassifyPic }));
@@ -189,7 +194,7 @@ Page({
                     if (res.data.Code == 0)
                         this.setData({ realname: realname, token: token });
                     dataApi.getUserGoodsNum({ token }).then(res => {
-                            console.log(res)
+                            // console.log(res)
                             if (res.data.Code == 0 && res.data.Row)
                                 this.setData({
                                     CartNumber: res.data.Row
@@ -248,9 +253,7 @@ Page({
         } else this.setData({ realname: '', token: '' });
     },
     findcate() {
-        wx.request({
-            url: "https://shoptest.jzyglxt.com/Category/GetCategoryPart",
-            success: (res) => {
+        dataApi.getCategoryPart({}).then(res => {
                 var datas = JSON.parse(res.data.Datas);
                 datas = flatarr(datas);
 
@@ -283,25 +286,64 @@ Page({
                 this.setData({
                     productinfo: productinfo
                 });
-            }
-        })
+            })
+            // wx.request({
+            //     url: "https://shoptest.jzyglxt.com/Category/GetCategoryPart",
+            //     success: (res) => {
+            //         var datas = JSON.parse(res.data.Datas);
+            //         datas = flatarr(datas);
+            //         console.log(datas)
+
+        //         function flatarr(arr) {
+        //             for (var i = 0; i < arr.length; i++) {
+        //                 var item = arr[i];
+        //                 if (item.children) {
+        //                     arr = arr.concat(item.children);
+        //                     delete arr[i].children;
+        //                 }
+        //             }
+        //             return arr;
+        //         }
+        //         var productinfo = this.data.productinfo;
+        //         var CategoryOne = '',
+        //             CategoryTwo = '',
+        //             Category = '';
+        //         for (var i = 0; i < datas.length; i++) {
+        //             if (datas[i].Id == productinfo.CategoryOne) {
+        //                 CategoryOne = datas[i].CategoryName;
+        //             }
+        //             if (datas[i].Id == productinfo.CategoryTwo) {
+        //                 CategoryTwo = datas[i].CategoryName
+        //             }
+        //             if (datas[i].Id == productinfo.CategoryId) {
+        //                 Category = datas[i].CategoryName;
+        //             }
+        //         }
+        //         productinfo = Object.assign(productinfo, { CategoryOneName: CategoryOne, CategoryTwoName: CategoryTwo, CategoryName: Category });
+        //         this.setData({
+        //             productinfo: productinfo
+        //         });
+        //     }
+        // })
     },
-    getGoodInfo(seGoodsId, goodsCode) {
-        wx.request({
-            url: "https://shoptest.jzyglxt.com/Seller/GetSellerGoodsInfo",
-            method: "post",
-            header: {
-                "Content-Type": "application/x-www-form-urlencoded"
-            },
-            data: {
-                seGoodsId: seGoodsId,
-                goodsCode: goodsCode
-            },
-            success: (res) => {
-                console.log(res.data.Datas);
-            }
-        })
-    },
+
+    // getGoodInfo(seGoodsId, goodsCode) {
+    //     wx.request({
+    //         url: "https://shoptest.jzyglxt.com/Seller/GetSellerGoodsInfo",
+    //         method: "post",
+    //         header: {
+    //             "Content-Type": "application/x-www-form-urlencoded"
+    //         },
+    //         data: {
+    //             seGoodsId: seGoodsId,
+    //             goodsCode: goodsCode
+    //         },
+    //         success: (res) => {
+    //             console.log(res.data.Datas);
+    //         }
+    //     })
+    // },
+
     changeppindex: function(e) {
         var ppindex = e.currentTarget.dataset.ppindex;
         this.setData({
@@ -354,7 +396,7 @@ Page({
         var ppindex = this.data.ppindex;
         if (ppindex <= 0) ppindex = 0;
         this.setData({
-            toView: 'v0',
+            // toView: 'v0',
             ppindex: ppindex,
             vieworder: ss,
             immediatebuy: false,
@@ -384,7 +426,7 @@ Page({
         var ppindex = this.data.ppindex;
         if (ppindex <= 0) ppindex = 0;
         this.setData({
-            toView: 'v0',
+            // toView: 'v0',
             ppindex: ppindex,
             vieworder: ss,
             immediatebuy: true,
@@ -424,7 +466,8 @@ Page({
         });
         var token = this.data.token;
         dataApi.getUserCart({ token }).then(res => {
-                // console.log(res.data);
+                if (res.data.Code != 0) return
+                    // console.log(res.data);
                 this.setData({ CartGoods: res.data.Datas });
             })
             // wx.request({
@@ -439,6 +482,11 @@ Page({
             //         this.setData({ CartGoods: res.data.Datas });
             //     }
             // })
+    },
+    addpronum(e) {
+        this.setData({
+            ordercount: parseInt(e.detail.value)
+        })
     },
     minusordercount() {
         var ordercount = this.data.ordercount;
@@ -479,7 +527,7 @@ Page({
         var productinfo = this.data.productinfo;
         // console.log(this.data.immediatebuy)
         if (this.data.immediatebuy) {
-            var url = '../cart5/cart5?count=' + this.data.ordercount + '&SeGoodsId=' + productinfo.Classify[ppindex].SeGoodsId + '&GoodsCode=' + productinfo.Classify[ppindex].GoodsCode;
+            var url = '/pages/cart5/cart5?count=' + this.data.ordercount + '&SeGoodsId=' + productinfo.Classify[ppindex].SeGoodsId + '&GoodsCode=' + productinfo.Classify[ppindex].GoodsCode;
             wx.navigateTo({ url: url });
             return;
         }

@@ -22,6 +22,7 @@ Page({
             wx.navigateBack({ delta: 1 });
         } else {
             dataApi.checkToken({ token }).then(res => {
+                    console.log(res)
                     if (res.data.Code != 0) {
                         wx.removeStorageSync("token");
                         wx.navigateBack({ delta: 1 });
@@ -68,38 +69,38 @@ Page({
         var task;
         switch (s) {
             case 1:
-                task = dataApi.getBuyerOrderPxsp({ "token": this.data.token }, {
+                task = dataApi.getBuyerOrderPxsp({
                         page,
                         rows: 20
-                    })
+                    }, { "token": this.data.token })
                     // 'GetBuyerOrderPxsp';
                 break;
             case 5:
-                task = dataApi.getBuyerOrderQxdd({ "token": this.data.token }, {
+                task = dataApi.getBuyerOrderQxdd({
                         page,
                         rows: 20
-                    })
+                    }, { "token": this.data.token })
                     // url = 'GetBuyerOrderQxdd';
                 break;
             case 2:
-                task = dataApi.getBuyerOrderMjfk({ "token": this.data.token }, {
+                task = dataApi.getBuyerOrderMjfk({
                         page,
                         rows: 20
-                    })
+                    }, { "token": this.data.token })
                     // url = 'GetBuyerOrderMjfk';
                 break;
             case 3:
-                task = dataApi.getBuyerOrderMjfh({ "token": this.data.token }, {
+                task = dataApi.getBuyerOrderMjfh({
                         page,
                         rows: 20
-                    })
+                    }, { "token": this.data.token })
                     // url = 'GetBuyerOrderMjfh';
                 break;
             case 4:
-                task = dataApi.getBuyerOrderQrsh({ "token": this.data.token }, {
+                task = dataApi.getBuyerOrderQrsh({
                         page,
                         rows: 20
-                    })
+                    }, { "token": this.data.token })
                     // url = 'GetBuyerOrderQrsh';
                 break;
         }
@@ -108,6 +109,7 @@ Page({
         // page++;
         task.then(res => {
                 var data = res.data;
+                console.log(res)
                 if (data.Code == 0) {
                     var List = data.Datas;
                     List.forEach(function(item, index) {

@@ -1,106 +1,179 @@
-<!--pages/index/product.wxml-->
+<!-- pages/index/product.wxml -->
 <view class="actionbar">
+    <view bindtap="viewhistory" class="view-history" hidden="{{true}}"></view>
+    <view class="cart" bindtap="viewcart">
+        <text wx:if="{{CartNumber>0}}">{{CartNumber}}</text>
+    </view>
+    <view class="addcart" bindtap="addcart">加入购物车</view>
+    <view class="buy" bindtap="buy">立即购买</view>
+</view>
+<view wx:if="{{false}}" class="model {{viewhistory?'show':'hide'}}">
+    <view class="modelhead" bindtap="viewhistory">浏览历史</view>
+    <scroll-view class="history" scroll-y="true">
+        <block wx:for="{{history}}" wx:for-item="item" wx:key="index">
+            <view class="listitem" data-pid="{{item.Pid}}" bindtap="changeproduct">
+                <view>
+                    <image src="https:{{item.TopPic}}" />
+                </view>
+                <view style="padding-top:8px;">
+                    <text>{{item.Title}}</text>
+                    <text>{{item.RealName}}</text>
+                </view>
+            </view>
+        </block>
+    </scroll-view>
+</view>
 <view bindtap="viewhistory"></view>
-<view class="cart" bindtap="viewcart"><text wx:if="{{CartNumber>0}}">{{CartNumber}}</text></view>
-<view class="addcart" bindtap="addcart">加入购物车</view>
-<view class="buy" bindtap="buy">立即购买</view>
-</view>
-<view class="model {{viewhistory?'show':'hide'}}">
-<view class="modelhead" bindtap="viewhistory">浏览历史</view>
-<scroll-view class="history" scroll-y="true">
-<block wx:for="{{history}}" wx:for-item="item" wx:key="index">
-<view class="listitem" data-pid="{{item.Pid}}" bindtap="changeproduct">
-<view><image src="http://120.27.218.55:8002/?id={{item.TopPic}}&t=" mode="aspectFit" /></view>
-<view style="padding-top:8px;">
-<text>{{item.Title}}</text>
-<text>{{item.RealName}}</text>
-</view>
-</view>
-</block>
-</scroll-view>
-</view><view bindtap="viewhistory"></view>
 <view class="model {{viewcart?'show':'hide'}}">
-<view class="modelhead" bindtap="viewcart">购物车</view>
-<block wx:if="{{CartGoods.length>0}}">
-<scroll-view class="CartGoods" scroll-y="true" style="height:calc(100vh - 172px);">
-<block wx:for="{{CartGoods}}" wx:for-item="item" wx:key="index">
-<view wx:if="{{index==0||item.SellerId!=CartGoods[index-1].SellerId}}" class="listdt">
-{{item.SellerName}}
+    <view class="modelhead" bindtap="viewcart">购物车</view>
+    <block wx:if="{{CartGoods.length>0}}">
+        <scroll-view class="CartGoods" scroll-y="true" style="height:calc(100vh - 172px);">
+            <block wx:for="{{CartGoods}}" wx:for-item="item" wx:key="index">
+                <view wx:if="{{index==0||item.SellerId!=CartGoods[index-1].SellerId}}" class="listdt">
+                    {{item.SellerName}}
+                </view>
+                <view class="listitem">
+                    <view>
+                        <image src="https:{{item.ClassifyPic}}" mode="aspectFit" />
+                    </view>
+                    <view>
+                        <text>{{item.Title}}</text>
+                        <text>{{item.ClassifyName}}</text>
+                        <text>
+                            ￥{{item.PrefPrice}} × {{item.BuyCount}}=￥{{item.PrefPrice*item.BuyCount}}
+                        </text>
+                    </view>
+                </view>
+            </block>
+        </scroll-view>
+        <view bindtap="tocart" style="text-align:center;height:34px;padding-top:8px;color:#999;font-weight:bold;">
+            去结算
+        </view>
+    </block>
+    <block wx:else>
+        <image src="/img/unfound.svg" class="pp" mode="aspectFit" />
+    </block>
 </view>
-<view class="listitem">
-<view><image src="http://120.27.218.55:8002/?id={{item.ClassifyPic}}&t=" mode="aspectFit" /></view>
-<view>
-<text>{{item.Title}}</text>
-<text>{{item.ClassifyName}}</text>
-<text>￥{{item.PrefPrice}} × {{item.BuyCount}}=￥{{item.PrefPrice*item.BuyCount}}</text>
-</view>
-</view>
-</block>
-</scroll-view>
-<view bindtap="tocart" style="text-align:center;height:34px;padding-top:8px;color:#999;font-weight:bold;">去结算</view>
-</block>
-<block wx:else>
-<image src="/img/unfound.svg" class="pp" mode="aspectFit" />
-</block>
-</view><view bindtap="viewcart"></view>
+<view bindtap="viewcart"></view>
 <view class="order {{vieworder?'show':'hide'}}">
-<view class="closebtn" bindtap="addcart"></view>
-<view class="orderhead">{{immediatebuy?'立即购买':'加入购物车'}}</view>
-<view class="orderinfo">
-<image src="http://120.27.218.55:8002/?id={{productinfo.Classify[ppindex].ClassifyPic}}&t=" mode="aspectFit" bindtap="previewImage" />
-<text>{{productinfo.Title}}</text>
-<view><text class="gray">你已选中:</text><text class="cn">{{productinfo.Classify[ppindex].ClassifyName}}</text><view wx:if="{{productinfo.Classify.length>1}}" class="toggle" hover-class="toggle2" bindtap="changenextppindex"></view></view>
-<view><text class="gray">单价:</text><text class="highlight">{{productinfo.Classify[ppindex].PrefPrice}}</text>元/{{productinfo.Classify[ppindex].FirstUnit}}<text class="gray">单重:</text>{{productinfo.Classify[ppindex].Weight}}千克</view>
+    <view class="closebtn" bindtap="addcart"></view>
+    <view class="orderhead">{{immediatebuy?'立即购买':'加入购物车'}}</view>
+    <view class="orderinfo">
+        <image src="https:{{productinfo.Classify[ppindex].ClassifyPic}}" mode="aspectFit" bindtap="previewImage" />
+        <text>{{productinfo.Title}}</text>
+        <view>
+            <text class="gray">你已选中:</text>
+            <text class="cn">{{productinfo.Classify[ppindex].ClassifyName}}</text>
+            <view wx:if="{{productinfo.Classify.length>1}}" class="toggle" hover-class="toggle2" bindtap="changenextppindex"></view>
+        </view>
+        <view>
+            <text class="gray">单价:</text>
+            <text class="highlight">{{productinfo.Classify[ppindex].PrefPrice}}</text>
+            元/{{productinfo.Classify[ppindex].FirstUnit}}
+            <text class="gray">单重:</text>
+            {{productinfo.Classify[ppindex].Weight}}千克
+        </view>
+    </view>
+    <view class="ordercount">
+        <text class="ord-con">采购量：</text>    
+        <text bindtap="minusordercount" class="control reduce {{ordercount<=1?'disabled':''}}">-</text>
+        <input confirm-type="done" bindconfirm="UpCartGoods" class="inp-num" type="number" bindblur="addpronum" value="{{ordercount}}"/>
+        <!-- <text>{{ordercount}}</text> -->
+        <text bindtap="addordercount" class="control add {{ordercount>=productinfo.Classify[ppindex].Total?'disabled':''}}">+</text>
+        <text class="ord-con">(库存{{productinfo.Classify[ppindex].Total}}{{productinfo.Classify[ppindex].FirstUnit}})</text>       
+    </view>
+    <view class="addbtn" bindtap="UpCartGoods">确　　定</view>
 </view>
-<view class="ordercount">采购量：<text bindtap="minusordercount" class="{{ordercount<=1?'disabled':''}}">-</text><text>{{ordercount}}</text><text  bindtap="addordercount" class="{{ordercount>=productinfo.Classify[ppindex].Total?'disabled':''}}">+</text> (库存{{productinfo.Classify[ppindex].Total}}{{productinfo.Classify[ppindex].FirstUnit}})</view>
-<view class="addbtn" bindtap="UpCartGoods">确　　定</view>
-</view><view bindtap="addcart"></view>
+<view bindtap="addcart"></view>
 <block wx:if="{{pid==''}}">
-<view class="product">
-<image src="/img/unfound.svg" mode="aspectFit"/>
-</view>
+    <view class="product">
+        <image src="/img/unfound.svg" mode="aspectFit" />
+    </view>
 </block>
 <block wx:else>
-<view class="title">
-<text>{{productinfo.Title}}</text>
-<text>供应商：{{productinfo.RealName}}</text>
-</view>
-<scroll-view class="product" scroll-y="true" scroll-with-animation="true" scroll-into-view="{{toView}}" enable-back-to-top>
-<swiper id="v0" indicator-dots="true" indicator-color="#999" indicator-active-color="orange" current="0" circular="true" current="{{ppindex+1}}" bindchange="swiperchange">
-<block wx:for="{{productinfo.Imgs}}" wx:for-item="item"  wx:key="index"><swiper-item><image src="{{item}}" mode="aspectFit" /></swiper-item></block>
-</swiper>
-<block wx:for="{{productinfo.Classify}}"  wx:for-item="item" wx:key="index">
-<view id="pp{{index}}" class="item {{index==ppindex?'active':''}}" bindtap="changeppindex" data-ppindex="{{index}}">
-<image src="http:{{item.ClassifyPic}}" mode="aspectFit" />
-<text>{{item.ClassifyName}}</text>
-<view>库存{{item.Total}}{{item.FirstUnit}}
+    <view class="title">
+        <text>{{productinfo.Title}}</text>
+        <!-- <text>供应商：{{productinfo.RealName}}</text> -->
+    </view>
+    <scroll-view class="product" scroll-y="true" scroll-with-animation="true" scroll-into-view="{{toView}}" enable-back-to-top>
+        <swiper id="v0" indicator-dots="true" indicator-color="#999" indicator-active-color="orange" current="0" circular="true" current="{{ppindex+1}}" bindchange="swiperchange">
+            <block wx:for="{{productinfo.Imgs}}" wx:for-item="item" wx:key="index">
+                <swiper-item>
+                    <image src="{{item}}" mode="aspectFit" />
+                </swiper-item>
+            </block>
+        </swiper>
+        <view class="title-info">
+            <view>
+                <view>
+                    <text class="single-title" decode="{{true}}">单价:</text>
+                    <text class="single-price" decode="{{true}}">￥{{productinfo.Classify[0].Price}}
+                    </text>
+                </view>
+                <text class="seller" decode="{{true}}">单位: {{productinfo.Classify[0].FirstUnit}}/{{productinfo.Classify[0].SecCount}}{{productinfo.Classify[0].SecUnit}}</text>
+            </view>
+            <view wx:if="{{false}}">
+                <text class="sum">库存 {{productinfo.Classify[0].Total}}</text>
+                <text class="seller">已售 {{productinfo.Classify[0].SoldCount}}</text>
+            </view>
+            <view>
+                <text class="pro-title">商品: {{productinfo.Classify[0].ClassifyName}}</text>
+            </view>
+            <view>
+                <text class="pro-real">供应商: {{productinfo.RealName}}</text>
+            </view>
+        </view>
+        <!-- <block wx:for="{{productinfo.Classify}}" wx:for-item="item" wx:key="index">
+            <view id="pp{{index}}" class="item {{index==ppindex?'active':''}}" bindtap="changeppindex" data-ppindex="{{index}}">
+                <image src="http:{{item.ClassifyPic}}" mode="aspectFit" />
+                <text>{{item.ClassifyName}}</text>
+                <view>
+                    库存{{item.Total}}{{item.FirstUnit}}
 已售{{item.SoldCount}}{{item.FirstUnit}}
 单重{{item.Weight}}kg
-<block wx:if="{{item.Price>item.RrefPrice}}">
-单价<text class="del">{{item.Price}}元</text> → <text class="highlight">{{item.PrefPrice}}</text>元</block>
-<block wx:else>单价<text class="highlight">{{item.PrefPrice}}</text>元</block>
-</view>
-</view>
-</block>
-<view class="bar" id="v1"><text class="{{toView == 'v1'?'active':''}}" bindtap="tov1">商品介绍</text><text class="{{toView == 'v2'?'active':''}}" bindtap="tov2">商品规格</text><text class="{{toView == 'v3'?'active':''}}" bindtap="tov3">售后服务</text></view>
-<view wx:if="{{toView == 'v1'}}" class="desc">
-    <view class="contain"><text class="contain-text" decode="{{true}}">&nbsp;&nbsp;&nbsp;&nbsp;{{productinfo.contain}}</text></view>
-    <image wx:if="{{productinfo.ContentPics}}" class="" src="{{productinfo.ContentPics}}" mode="widthFix" />
-</view>
-<!-- <view class="bar" id="v2"><text bindtap="tov1">商品介绍</text><text class="active" bindtap="tov2">商品规格</text><text bindtap="tov3">售后服务</text></view> -->
-<view wx:if="{{toView == 'v2'}}" class="table">
-<view>基本信息:</view>
-<!-- <view  class="cate"><text wx:if="{{productinfo.CategoryOneName}}">{{productinfo.CategoryOneName}}</text><text wx:if="{{productinfo.CategoryTwoName}}">{{productinfo.CategoryTwoName}}</text><navigator wx:if="{{productinfo.CategoryId!=''}}" url="products?cid={{productinfo.CategoryName}}&cname={{productinfo.CategoryName}}">{{productinfo.CategoryName}}</navigator></view> -->
-<view wx:if="{{productinfo.CategoryValue}}" wx:for="{{productinfo.CategoryValue}}" wx:for-item="item" wx:key="index">
-<view>{{item[0]}}:</view><view>{{item[1]}}</view>
-</view>
-</view>
-<!-- <view class="bar" id="v3"><text bindtap="tov1">商品介绍</text><text bindtap="tov2">商品规格</text><text class="active" bindtap="tov3">售后服务</text></view> -->
-<view wx:if="{{toView == 'v3'}}" class="check">
-<text wx:if="{{productinfo.IsInvoice}}">提供发票</text>
-<text wx:if="{{productinfo.isMaintain}}">保修服务({{productinfo.MaintainPolicy}})</text>
-<text wx:if="{{prodoctinfo.IsReturn}}">退换货承诺 若存在质量问题或与描述不符，本店将提供退换货服务并承担运费</text>
-<text wx:if="{{productinfo.IsService}}">服务承诺：该类商品，可支持【七天退货】服务，承诺更好服务</text>
-</view>
-</scroll-view>
+                    <block wx:if="{{item.Price>item.RrefPrice}}">
+                        单价
+                        <text class="del">{{item.Price}}元</text>
+                        →
+                        <text class="highlight">{{item.PrefPrice}}</text>
+                        元
+                    </block>
+                    <block wx:else>
+                        单价
+                        <text class="highlight">{{item.PrefPrice}}</text>
+                        元
+                    </block>
+                </view>
+            </view>
+        </block> -->
+        <view class="bar" id="v1">
+            <text class="{{toView == 'v1'?'active':''}}" bindtap="tov1">商品介绍</text>
+            <text class="{{toView == 'v2'?'active':''}}" bindtap="tov2">商品规格</text>
+            <text class="{{toView == 'v3'?'active':''}}" bindtap="tov3">售后服务</text>
+        </view>
+        <view wx:if="{{toView == 'v1'}}" class="desc">
+            <view class="contain">
+                <text class="contain-text" decode="{{true}}">
+                    &nbsp;&nbsp;&nbsp;&nbsp;{{productinfo.contain}}
+                </text>
+            </view>
+            <image wx:if="{{productinfo.ContentPics}}" class="pro-img" src="{{productinfo.ContentPics}}" mode="aspectFit" />
+        </view>
+        <!-- <view class="bar" id="v2"><text bindtap="tov1">商品介绍</text><text class="active" bindtap="tov2">商品规格</text><text bindtap="tov3">售后服务</text></view> -->
+        <view wx:if="{{toView == 'v2'}}" class="table">
+            <view>基本信息:</view>
+            <!-- <view  class="cate"><text wx:if="{{productinfo.CategoryOneName}}">{{productinfo.CategoryOneName}}</text><text wx:if="{{productinfo.CategoryTwoName}}">{{productinfo.CategoryTwoName}}</text><navigator wx:if="{{productinfo.CategoryId!=''}}" url="products?cid={{productinfo.CategoryName}}&cname={{productinfo.CategoryName}}">{{productinfo.CategoryName}}</navigator></view> -->
+            <view wx:if="{{productinfo.CategoryValue}}" wx:for="{{productinfo.CategoryValue}}" wx:for-item="item" wx:key="index">
+                <view>{{item[0]}}:</view>
+                <view>{{item[1]}}</view>
+            </view>
+        </view>
+        <!-- <view class="bar" id="v3"><text bindtap="tov1">商品介绍</text><text bindtap="tov2">商品规格</text><text class="active" bindtap="tov3">售后服务</text></view> -->
+        <view wx:if="{{toView == 'v3'}}" class="check">
+            <text wx:if="{{productinfo.IsInvoice}}">提供发票</text>
+            <text wx:if="{{productinfo.isMaintain}}">保修服务({{productinfo.MaintainPolicy}})</text>
+            <text wx:if="{{prodoctinfo.IsReturn}}">退换货承诺 若存在质量问题或与描述不符，本店将提供退换货服务并承担运费</text>
+            <text wx:if="{{productinfo.IsService}}">服务承诺：该类商品，可支持【七天退货】服务，承诺更好服务</text>
+        </view>
+    </scroll-view>
 </block>

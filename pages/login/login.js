@@ -8,6 +8,8 @@ Page({
         picCode: '',
         sessionid: '',
         header: '',
+        userName: '',
+        passWord: '',
         showCode: false
     },
     onLoad: function(options) {
@@ -15,7 +17,10 @@ Page({
         wx.removeStorageSync("token");
     },
     onReady: function() {
-
+        this.setData({
+            userName: wx.getStorageSync('userName'),
+            passWord: wx.getStorageSync('passWord')
+        })
     },
     onShow: function() {
 
@@ -99,6 +104,7 @@ Page({
     },
     CheckUser(e) {
         var obj = e.detail.value;
+        console.log(obj)
         if (obj.userName == '') {
             wx.showToast({
                 title: '请输入用户名',
@@ -124,6 +130,7 @@ Page({
             return;
         }
         wx.showLoading({ title: '提交中' });
+        var passWordtemp = obj.passWord;
         var password = md5(obj.passWord);
         obj = Object.assign(obj, { passWord: password, picId: this.data.picId });
         // console.log(obj)
@@ -153,6 +160,8 @@ Page({
                 var token = datas.substring(0, i);
                 wx.setStorageSync("realname", realname);
                 wx.setStorageSync("token", token);
+                wx.setStorageSync("userName", obj.userName);
+                wx.setStorageSync("passWord", passWordtemp);
                 wx.navigateBack({ delta: 1 });
             }
         })

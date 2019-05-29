@@ -1,6 +1,6 @@
 <!--pages/user/address.wxml-->
 <view class="panel">
-<view class="panelhead"><text>收货地址</text><text bindtap="switchs">添加收货地址</text></view>
+<view class="panelhead"><text>收货地址</text><text  bindtap="switchs">添加收货地址</text></view>
 <scroll-view scroll-y="true">
 <block wx:if="{{addressList.length==0}}">
 <image src="/img/unfound.svg" class="pp" mode="aspectFit" />
@@ -13,7 +13,7 @@
 <view><text>详细地址：</text>{{item.Address}}</view>
 <view><text>邮政编码：</text>{{item.PostCode}}</view>
 <view><text>手机号：</text>{{item.RePhone}}</view>
-<view><text data-index="{{index}}" bindtap="modiaddress">修改</text><text data-index="{{index}}" bindtap="deladdress">删除</text></view>
+<view><text data-index="{{index}}" bindtap="modiaddress">修改</text><text class="del" data-index="{{index}}" bindtap="deladdress">删除</text></view>
 </view>
 </block>
 </scroll-view></view>
@@ -27,7 +27,7 @@
 <view><input type="number" name="postCode" placeholder="请填写邮政编码" value="{{address.PostCode}}" maxlength="6" /><text></text></view>
 <view><input type="text" name="reUser" placeholder="请填写收货人姓名" value="{{address.ReUser}}"/><text></text></view>
 <view><input type="number" name="rePhone" placeholder="请填写收货人手机号" value="{{address.RePhone}}" maxlength="11"/><text></text></view>
-<view>默认地址？<switch name="IsDefault" checked="{{address.IsDefault}}" bindchange="switch1Change" /><text></text></view>
+<view>默认地址？<switch style="zoom:.6;" name="IsDefault" checked="{{address.IsDefault}}" bindchange="switch1Change" /><text></text></view>
 <button form-type="submit">保存地址</button>
 </form>
 </view><view bindtap="switchs"></view>

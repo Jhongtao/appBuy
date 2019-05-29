@@ -5,12 +5,42 @@ page {
 }
 
 view.masthead {
+    box-sizing: border-box;
     background-color: #2655B6;
     padding: 8px 14px 14px 14px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+.nav-login {
+    padding: 0 20rpx;
+}
+
+.login-in {
+    width: 750rpx;
+    display: flex;
+    margin-top: 30rpx;
+    /* margin-bottom: 20rpx; */
+    justify-content: center;
+    /* flex-direction: column; */
+    align-items: center;
+}
+
+.exit {
+    position: relative;
+    left: calc(50% - 250rpx);
+    margin-top: 20rpx;
+    width: 500rpx;
+    height: 80rpx;
+    background-color: #2655B6;
+    border-radius: 40rpx;
+    color: #f5f5f5;
+    font-size: 35rpx;
+    line-height: 80rpx;
+    text-align: center;
+    /* font-weight: 700; */
 }
 
 image.userface {
@@ -23,25 +53,10 @@ image.userface {
 }
 
 view.masthead>view {
-    display: inline-block;
     color: #fff;
-    font-size: 14px;
+    font-size: 35rpx;
     vertical-align: top;
-    padding: 6px 0;
     box-sizing: border-box;
-}
-
-view.masthead>view>text {
-    display: block;
-    height: 32px;
-}
-
-view.masthead>view>navigator {
-    display: inline-block;
-    padding: 10rpx;
-    font-size: 36rpx;
-    /* font-weight: 700; */
-    /* text-decoration: underline; */
 }
 
 view.item-group {

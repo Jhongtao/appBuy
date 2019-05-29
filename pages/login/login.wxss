@@ -51,6 +51,9 @@ form text {
 }
 
 form view>navigator:nth-of-type(1) {
+    text-decoration: underline;
+    color: #2655B6;
+    font-size: 35rpx;
     margin-top: 36px;
 }
 

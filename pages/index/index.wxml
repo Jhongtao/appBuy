@@ -1,12 +1,14 @@
-<!--index.wxml-->
+<!-- index.wxml -->
 <!-- <navigator wx:if="{{false}}" id="search" url="search"></navigator> -->
 <view class="page">
-<swiper indicator-dots="true" indicator-color="#999" indicator-active-color="orange" autoplay="autoplay" current="0" circular="circular">
-<block wx:for="{{slideshow}}" wx:for-item="item" wx:key="index">
-<swiper-item><image src="https:{{item.Image}}"  /></swiper-item>
-</block>
-</swiper>
-<!-- <view id="nav" wx:if="{{false}}">
+    <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="orange" autoplay="autoplay" current="0" circular="circular">
+        <block wx:for="{{slideshow}}" wx:for-item="item" wx:key="index">
+            <swiper-item>
+                <image src="https:{{item.Image}}" />
+            </swiper-item>
+        </block>
+    </swiper>
+    <!-- <view id="nav" wx:if="{{false}}">
 <navigator>
 <image mode="scaleToFill" src="../img/circle.svg" />
 <text>绑定微信</text>
@@ -20,58 +22,85 @@
 <text>发布商品</text>
 </navigator>
 </view> -->
-<view id="h2">精选商品</view>
-<view id="ewm" class="products" wx:if="{{productsewm[0]}}">
-<navigator url="/pages/products/products?cid=e99a9a2c00134f699aaa073f500e363c&cname=检测用二维码"><text>检测用二维码</text></navigator>
-<view class="pro-list">
-<block  wx:for="{{productsewm}}"  wx:for-item="item" wx:key="index">
-<navigator class="nav" url="/pages/product/product?pid={{item.Id}}">
-<view class="product_image"><image src="{{item.TopPic}}"  /></view>
-<view class="product_thumb">
-<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="{{g.ClassifyPic}}" mode="widthFix" /></block>
-<view class="prc-sale"><text class="product_price">¥{{item.MinPrice}}</text><text class="product_sales">{{item.MaxSold}}件已卖</text></view>
-</view>
-<view class="product_title">{{item.Title}}</view>
-<view class="product_shop">{{item.RealName}}</view>
-</navigator>
-</block>
-</view>
-</view>
-<view id="fgsb" class="products" wx:if="{{productsBgsb[0]}}">
-<navigator url="/pages/products/products?cid=058930463a4545469a78f84d8792f6a5&cname=办公设备"><text>办公设备</text></navigator>
-<view class="pro-list">
-<block wx:for="{{productsBgsb}}"  wx:for-item="item" wx:key="index">
-<navigator class="nav" url="/pages/product/product?pid={{item.Id}}">
-<view class="product_image"><image src="{{item.TopPic}}" mode="aspectFit" /></view>
-<view class="product_thumb">
-<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="{{g.ClassifyPic}}" mode="widthFix" /></block>
-</view>
-<view class="prc-sale"><text class="product_price">¥{{item.MinPrice}}</text><text class="product_sales">{{item.MaxSold}}件已卖</text></view>
-<view class="product_title">{{item.Title}}</view>
-<view class="product_shop">{{item.RealName}}</view>
-</navigator>
-</block>
-</view>
-</view>
-<view id="dzyj" class="products" wx:if="{{productsDzyqj[0]}}">
-<navigator url="/pages/products/products?cid=d50deb53f7f74eeaaa8049a56ccdf81d&cname=电子元器件"><text>电子元器件</text></navigator>
-<view class="pro-list">
-<block wx:for="{{productsDzyqj}}"  wx:for-item="item" wx:key="index">
-<navigator class="nav" url="/pages/product/product?pid={{item.Id}}">
-<view class="product_image"><image src="{{item.TopPic}}" mode="aspectFit" /></view>
-<view class="product_thumb">
-<block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index"><image src="{{g.ClassifyPic}}" mode="aspectFit" /></block>
-</view>
-<view class="prc-sale"><text class="product_price">¥{{item.MinPrice}}</text><text class="product_sales">{{item.MaxSold}}件已卖</text></view>
-<view class="product_title">{{item.Title}}</view>
-<view class="product_shop">{{item.RealName}}</view>
-</navigator>
-</block>
-</view>
-</view>
-<view id="footer">
-<text>版权所有：浙江标点信息科技有限公司</text>
-<text>公司地址：浙江省绍兴市稽山街道阳明北路683号705室</text>
-<text>Copyright 2009-2020 Corporation,AllRights Reserved.</text>
-</view>
+    <view id="h2">精选商品</view>
+    <view id="ewm" class="products" wx:if="{{productsewm[0]}}">
+        <navigator url="/pages/products/products?cid=e99a9a2c00134f699aaa073f500e363c&cname=检测用二维码">
+            <text>检测用二维码</text>
+        </navigator>
+        <view class="pro-list">
+            <block wx:for="{{productsewm}}" wx:if="{{index < 10}}" wx:for-item="item" wx:key="index">
+                <navigator class="nav" url="/pages/product/product?pid={{item.Id}}">
+                    <view class="product_image">
+                        <image src="https:{{item.TopPic}}" />
+                    </view>
+                    <view class="product_thumb">
+                        <block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index">
+                            <image wx:if="{{false}}" src="https:{{g.ClassifyPic}}" mode="widthFix" />
+                        </block>
+                        <view class="prc-sale">
+                            <text class="product_price"><text class="text-price">¥</text>{{item.MinPrice}}</text>
+                            <text class="product_sales">{{item.MaxSold}}件已卖</text>
+                        </view>
+                    </view>
+                    <view class="product_title">{{item.Title}}</view>
+                    <view class="product_shop">{{item.RealName}}</view>
+                </navigator>
+            </block>
+        </view>
+    </view>
+    <view id="fgsb" class="products" wx:if="{{productsBgsb[0]}}">
+        <navigator url="/pages/products/products?cid=058930463a4545469a78f84d8792f6a5&cname=办公设备">
+            <text>办公设备</text>
+        </navigator>
+        <view class="pro-list">
+            <block wx:for="{{productsBgsb}}" wx:for-item="item" wx:key="index">
+                <navigator class="nav" url="/pages/product/product?pid={{item.Id}}">
+                    <view class="product_image">
+                        <image src="https:{{item.TopPic}}" mode="aspectFit" />
+                    </view>
+                    <view class="product_thumb">
+                        <block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index">
+                            <image wx:if="{{false}}" src="https:{{g.ClassifyPic}}" mode="widthFix" />
+                        </block>
+                    </view>
+                    <view class="prc-sale">
+                        <text class="product_price"><text class="text-price">¥</text>{{item.MinPrice}}</text>
+                        <text class="product_sales">{{item.MaxSold}}件已卖</text>
+                    </view>
+                    <view class="product_title">{{item.Title}}</view>
+                    <view class="product_shop">{{item.RealName}}</view>
+                </navigator>
+            </block>
+        </view>
+    </view>
+    <view id="dzyj" class="products" wx:if="{{productsDzyqj[0]}}">
+        <navigator url="/pages/products/products?cid=d50deb53f7f74eeaaa8049a56ccdf81d&cname=电子元器件">
+            <text>电子元器件</text>
+        </navigator>
+        <view class="pro-list">
+            <block wx:for="{{productsDzyqj}}" wx:for-item="item" wx:key="index">
+                <navigator class="nav" url="/pages/product/product?pid={{item.Id}}">
+                    <view class="product_image">
+                        <image src="https:{{item.TopPic}}" mode="aspectFit" />
+                    </view>
+                    <view class="product_thumb">
+                        <block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index">
+                            <image wx:if="{{false}}" src="https:{{g.ClassifyPic}}" mode="aspectFit" />
+                        </block>
+                    </view>
+                    <view class="prc-sale">
+                        <text class="product_price"><text class="text-price">¥</text>{{item.MinPrice}}</text>
+                        <text class="product_sales">{{item.MaxSold}}件已卖</text>
+                    </view>
+                    <view class="product_title">{{item.Title}}</view>
+                    <view class="product_shop">{{item.RealName}}</view>
+                </navigator>
+            </block>
+        </view>
+    </view>
+    <view id="footer">
+        <text>版权所有：浙江标点信息科技有限公司</text>
+        <text>公司地址：浙江省绍兴市稽山街道阳明北路683号705室</text>
+        <text>Copyright 2009-2020 Corporation,AllRights Reserved.</text>
+    </view>
 </view>

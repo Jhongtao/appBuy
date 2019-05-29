@@ -13,6 +13,8 @@ Page({
      */
     onLoad: function(options) {
         // console.log(getApp().globalData.userInfo)
+        var realname = wx.getStorageSync("realname");
+        var token = wx.getStorageSync("token");
         wx.login({
             success: (res) => {
                 // console.log(res);
@@ -52,8 +54,22 @@ Page({
             dataApi.checkToken({
                     token
                 }).then(res => {
-                    if (res.data.Code == 0)
+                    console.log(res)
+                    if (res.data.Code == 0) {
                         this.setData({ realname: realname, token: token });
+                    } else {
+                        wx.showToast({
+                            title: '登入账号过期，请重新登入',
+                            icon: 'none',
+                            duration: 1000
+                        })
+                        setTimeout(() => {
+                            wx.navigateTo({
+                                url: '/pages/login/login'
+                            })
+                        }, 1000)
+                    }
+
                 })
                 // wx.request({
                 //     url: 'https://shoptest.jzyglxt.com/User/CheckToken',
@@ -67,7 +83,18 @@ Page({
                 //             this.setData({ realname: realname, token: token });
                 //     }
                 // })
-        } else this.setData({ realname: '', token: '' });
+        } else {
+            wx.showToast({
+                title: '您还未登入请先登入',
+                icon: 'none',
+                duration: 1000
+            })
+            setTimeout(() => {
+                wx.navigateTo({
+                    url: '/pages/login/login'
+                })
+            }, 1000)
+        }
         if (getApp().globalData.userInfo) this.setData({ userInfo: getApp().globalData.userInfo });
     },
 
@@ -102,5 +129,21 @@ Page({
         //         }
         //     }
         // })
+    },
+    exit() {
+        wx.showModal({
+            title: '退出登入',
+            content: '确定退出登入吗?',
+            success: (res) => {
+                console.log(res.confirm)
+                if (res.confirm) {
+                    wx.removeStorageSync('token')
+                    wx.removeStorageSync('realname')
+                    wx.switchTab({
+                        url: "/pages/index/index"
+                    })
+                }
+            }
+        })
     }
 })

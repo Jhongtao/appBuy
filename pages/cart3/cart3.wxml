@@ -13,7 +13,7 @@
 <view class="listdt">商家：{{SeRealName}}</view>
 <block wx:for="{{Goods}}" wx:for-item="item" wx:key="index">
 <view class="listitem">
-<view><image src="http://120.27.218.55:8002/?id={{item.ClassifyPic}}&t=" mode="aspectFit" /></view>
+<view><image src="https:{{item.ClassifyPic}}" mode="aspectFit" /></view>
 <view style="padding-top:6px;"><text>{{item.Title}}</text><text>{{item.ClassifyName}}</text><text>￥{{item.PrefPrice}} × {{item.Number}} = ￥{{item.PrefPrice*item.Number}}</text></view>
 </view>
 </block>

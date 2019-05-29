@@ -20,7 +20,8 @@ Page({
         IsInvoice: false,
         InvoiceList: [],
         ZtUser: '',
-        ZtPhone: ''
+        ZtPhone: '',
+        expressPrice: 0
     },
 
     /**
@@ -66,12 +67,30 @@ Page({
                     };
                     CartGood.BuyCount = count;
                     this.setData({ CartGoods: [CartGood], totalPrice: totalPrice, DeliveryAddress: res.data.Datas.DeliveryAddress });
+
+                    var expressList = []
+                    expressList.push({
+                        SellerId: CartGood.UserId,
+                        SeGoodsId: CartGood.SeGoodsId,
+                        GoodsCode: CartGood.GoodsCode,
+                        Weight: CartGood.Weight,
+                        BuyCount: CartGood.BuyCount
+                    })
+                    dataApi.getExpressFee({ data: JSON.stringify(expressList), isZt: 0 }, { token: this.data.token }).then(res => {
+                        if (res.data.Datas) {
+                            this.setData({
+                                expressPrice: res.data.Datas
+                            })
+                        }
+                    })
                 })
                 dataApi.getAddressList({ token }).then(res => {
+                    if (res.data.Code != 0) return
                     var AddressList = res.data.Datas;
                     this.setData({ 'AddressList': AddressList });
                 })
                 dataApi.getInvoiceList({ token }).then(res => {
+                    if (res.data.Code != 0) return
                     var InvoiceList = res.data.Datas;
                     this.setData({ 'InvoiceList': InvoiceList });
                 })

@@ -11,7 +11,8 @@ Page({
         page: 0,
         cid: '',
         products: [],
-        allkeyword: []
+        allkeyword: [],
+        dataOver: false
     },
 
     onLoad: function(options) {
@@ -22,12 +23,11 @@ Page({
             cid: cid,
             allkeyword: []
         });
-        var page = this.data.page;
-        page++;
+
         var token = wx.getStorageSync('token')
         dataApi.getGoodsByCategory({
                 "categoryId": cid,
-                "page": page,
+                "page": ++this.data.page,
                 "rows": 20
             }, {
                 token
@@ -35,7 +35,7 @@ Page({
                 if (res.data.Code != 0) return;
                 this.setData({
                     "products": res.data.Datas,
-                    "page": page
+                    "page": this.data.page
                 })
             })
             // wx.request({
@@ -60,23 +60,32 @@ Page({
             // })
     },
     onReachBottom: function() {
+        if (this.dataOver) {
+            wx.showToast({
+                title: '没有更多数据了',
+                icon: 'none',
+                duration: 1500
+            })
+            return
+        }
         var insearch = this.data.insearch;
         if (insearch) return;
         var orderFiled = this.data.orderFiled;
         var isDesc = this.data.isDesc;
         var cid = this.data.cid;
         var products = this.data.products;
-        var page = this.data.page++;
+        // var page = this.data.page++;
         var token = wx.getStorageSync('token')
         dataApi.getGoodsByCategory({
                 "categoryId": cid,
-                "page": page,
+                "page": ++this.data.page,
                 "orderFiled": orderFiled,
                 "isDesc": isDesc,
                 "rows": 20
             }, {
                 token
             }).then(res => {
+                console.log(res.data)
                 if (res.data.Code == 2) {
                     wx.showToast({
                         title: '没有更多数据了',
@@ -168,6 +177,14 @@ Page({
         this.setData({
             allkeyword: allkeyword
         });
+        console.log(e)
+        dataApi.getGoodsByTitle({
+            page: 1,
+            rows: 20,
+            title: '贴'
+        }, {
+            token: this.data.token
+        }).then(res => console.log(res))
     },
     ordersearch: function(e) {
         var orderFiled1 = this.data.orderFiled;

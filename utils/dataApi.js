@@ -45,11 +45,15 @@ class DataApi extends Request {
         }
         //注册
     registerUser(params, head) {
-            return this.postData('/User/RegisterUser', params, head)
+            return this.postData('/User/RegUserInfo', params, head)
         }
         //修改密码
     changePasswd(params, head) {
             return this.postData('/User/ChangePasswd', params, head)
+        }
+        //查询商品列表
+    getGoodsByTitle(params, head) {
+            return this.postData('/Seller/GetGoodsByTitle', params, head)
         }
         //获取商品详情
     getGoods(params, head) {
@@ -118,13 +122,13 @@ class DataApi extends Request {
         }
         //买家的发票列表（所有列表-GetAllUserInvoice/已开发票列表-GetUserInvoiceYk/未开发票列表-GetUserInvoiceWk）
     getAllUserInvoice(head) {
-        return this.getData('/Order/GetAllUserInvoice', {}, head)
+        return this.postData('/Order/GetAllUserInvoice', {}, head)
     }
     getUserInvoiceYk(head) {
-        return this.getData('/Order/GetUserInvoiceYk', {}, head)
+        return this.postData('/Order/GetUserInvoiceYk', {}, head)
     }
     getUserInvoiceWk(head) {
-            return this.getData('/Order/GetUserInvoiceWk', {}, head)
+            return this.postData('/Order/GetUserInvoiceWk', {}, head)
         }
         //购物车中数量直接覆盖更新
     upGoodsNumber(params, head) {
@@ -169,6 +173,10 @@ class DataApi extends Request {
         //订单付款
     getOrderById(params, head) {
             return this.postData('/Buyer/GetOrderById', params, head)
+        }
+        //获取快递费
+    getExpressFee(params, head) {
+            return this.postData('/User/GetExpressFee', params, head)
         }
         //查询余额
     checkBalance(head) {

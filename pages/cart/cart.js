@@ -20,7 +20,8 @@ Page({
         token: '',
         s: true,
         ss: 0,
-        IsExpress: true
+        IsExpress: true,
+        expressPrice: 0
     },
 
     /**
@@ -51,6 +52,7 @@ Page({
             } else {
                 this.setData({ token: token });
                 dataApi.getUserCart({ token }).then(res => {
+                    console.log(res.data)
                     if (res.data.Code != 0) return;
                     var CartGoods = res.data.Datas;
                     var totalBuyCount = 0,
@@ -80,6 +82,7 @@ Page({
                     })
                 })
                 dataApi.getInvoiceList({ token }).then(res => {
+                    if (res.data.Code != 0) return;
                     var InvoiceList = res.data.Datas;
                     this.setData({ InvoiceList: InvoiceList })
                 })
@@ -228,19 +231,50 @@ Page({
                 this.setData({ ss: 0 });
         }
     },
+    // changeBuyCount(e) {
+    //     var index = e.currentTarget.dataset.i;
+    //     var CartGoods = this.data.CartGoods;
+    //     var number = parseInt(e.detail.value);
+    //     dataApi.upGoodsNumber({
+    //         SeGoodsId: CartGoods[index].SeGoodsId,
+    //         GoodsCode: CartGoods[index].GoodsCode,
+    //         number: CartGoods[index].BuyCount
+    //     }, { token: this.data.token }).then(res => {
+    //         if (res.data.Code != 0) return;
+    //         var totalBuyCount = 0,
+    //             totalPrice = 0;
+    //         CartGoods[index].BuyCount = BuyCount;
+    //         CartGoods.forEach((item, index) => {
+    //             if (!CartGoods[index].checked) return;
+    //             totalBuyCount += item.BuyCount;
+    //             totalPrice += item.PrefPrice * item.BuyCount;
+    //         });
+    //         this.setData({ totalBuyCount: totalBuyCount, totalPrice: totalPrice, CartGoods: CartGoods });
+    //     })
+
+    // },
     changegoodcount: function(e) {
-        var offsetLeft = e.target.offsetLeft;
         var index = e.currentTarget.dataset.i;
+        var type = e.currentTarget.dataset.type
         var CartGoods = this.data.CartGoods;
         var BuyCount = CartGoods[index].BuyCount;
-        if (offsetLeft < 50) BuyCount--;
-        else BuyCount++;
+        if (type == 'reduce') {
+            BuyCount--
+        }
+        if (type == 'add') {
+            BuyCount++
+        }
+        if (type == 'inp') {
+            BuyCount = parseInt(e.detail.value)
+        }
+        // if (offsetLeft < 50) BuyCount--;
+        // else BuyCount++;
         //console.log(this.data.CartGoods[index].BuyCount);
         if (BuyCount <= 0 || BuyCount > CartGoods[index].Total - CartGoods[index].SoldCount) return;
         dataApi.upGoodsNumber({
                 SeGoodsId: CartGoods[index].SeGoodsId,
                 GoodsCode: CartGoods[index].GoodsCode,
-                number: CartGoods[index].BuyCount
+                number: BuyCount
             }, { token: this.data.token }).then(res => {
                 if (res.data.Code != 0) return;
                 var totalBuyCount = 0,
@@ -303,48 +337,59 @@ Page({
         else this.setData({ IsInvoice: false, InvoiceId: '' });
     },
     delgood: function(e) {
-        var index = e.currentTarget.dataset.index;
-        console.log(index);
-        var CartGoods = this.data.CartGoods;
-        dataApi.deleteGoods({
-                SeGoodsId: CartGoods[index].SeGoodsId,
-                GoodsCode: CartGoods[index].GoodsCode
-            }, { token: this.data.token }).then(res => {
-                if (res.data.Code != 0) return;
-                CartGoods.splice(index, 1);
-                var totalBuyCount = 0,
-                    totalPrice = 0;
-                CartGoods.forEach((item, index) => {
-                    if (!CartGoods[index].checked) return;
-                    totalBuyCount += item.BuyCount;
-                    totalPrice += item.PrefPrice * item.BuyCount
-                });
-                this.setData({ totalBuyCount: totalBuyCount, totalPrice: totalPrice, CartGoods: CartGoods });
-            })
-            // wx.request({
-            //     url: 'https://shoptest.jzyglxt.com/Buyer/DeleteGoods',
-            //     method: 'post',
-            //     header: {
-            //         "Content-Type": "application/x-www-form-urlencoded",
-            //         "token": this.data.token,
-            //     },
-            //     data: {
-            //         SeGoodsId: CartGoods[index].SeGoodsId,
-            //         GoodsCode: CartGoods[index].GoodsCode
-            //     },
-            //     success: res => {
-            //         if (res.data.Code != 0) return;
-            //         CartGoods.splice(index, 1);
-            //         var totalBuyCount = 0,
-            //             totalPrice = 0;
-            //         CartGoods.forEach(function(item, index) {
-            //             if (!CartGoods[index].checked) return;
-            //             totalBuyCount += item.BuyCount;
-            //             totalPrice += item.PrefPrice * item.BuyCount
-            //         });
-            //         this.setData({ totalBuyCount: totalBuyCount, totalPrice: totalPrice, CartGoods: CartGoods });
-            //     }
-            // });
+        wx.showModal({
+            title: '提示',
+            content: '是否删除该商品',
+            success(res) {
+                if (res.confirm) {
+                    var index = e.currentTarget.dataset.index;
+                    console.log(index);
+                    var CartGoods = this.data.CartGoods;
+                    dataApi.deleteGoods({
+                        SeGoodsId: CartGoods[index].SeGoodsId,
+                        GoodsCode: CartGoods[index].GoodsCode
+                    }, { token: this.data.token }).then(res => {
+                        if (res.data.Code != 0) return;
+                        CartGoods.splice(index, 1);
+                        var totalBuyCount = 0,
+                            totalPrice = 0;
+                        CartGoods.forEach((item, index) => {
+                            if (!CartGoods[index].checked) return;
+                            totalBuyCount += item.BuyCount;
+                            totalPrice += item.PrefPrice * item.BuyCount
+                        });
+                        this.setData({ totalBuyCount: totalBuyCount, totalPrice: totalPrice, CartGoods: CartGoods });
+                    })
+                } else if (res.cancel) {
+
+                }
+            }
+        })
+
+        // wx.request({
+        //     url: 'https://shoptest.jzyglxt.com/Buyer/DeleteGoods',
+        //     method: 'post',
+        //     header: {
+        //         "Content-Type": "application/x-www-form-urlencoded",
+        //         "token": this.data.token,
+        //     },
+        //     data: {
+        //         SeGoodsId: CartGoods[index].SeGoodsId,
+        //         GoodsCode: CartGoods[index].GoodsCode
+        //     },
+        //     success: res => {
+        //         if (res.data.Code != 0) return;
+        //         CartGoods.splice(index, 1);
+        //         var totalBuyCount = 0,
+        //             totalPrice = 0;
+        //         CartGoods.forEach(function(item, index) {
+        //             if (!CartGoods[index].checked) return;
+        //             totalBuyCount += item.BuyCount;
+        //             totalPrice += item.PrefPrice * item.BuyCount
+        //         });
+        //         this.setData({ totalBuyCount: totalBuyCount, totalPrice: totalPrice, CartGoods: CartGoods });
+        //     }
+        // });
     },
     checkall: function(e) {
         var dataset = e.currentTarget.dataset;
@@ -402,7 +447,6 @@ Page({
     },
     SettleOrder: function(e) {
         var s = this.data.s;
-
         if (!s) {
             this.setData({ s: true });
             return;
@@ -413,6 +457,23 @@ Page({
         var AddressList = this.data.AddressList;
         if (AddressList.length == 0) this.setData({ s: false, ss: 1 });
         else this.setData({ s: false })
+        var expressList = []
+        CartGoods.forEach(item => {
+            expressList.push({
+                SellerId: item.SellerId,
+                SeGoodsId: item.SeGoodsId,
+                GoodsCode: item.GoodsCode,
+                Weight: item.Weight,
+                BuyCount: item.BuyCount
+            })
+        })
+        dataApi.getExpressFee({ data: JSON.stringify(expressList), isZt: 0 }, { token: this.data.token }).then(res => {
+            if (res.data.Datas) {
+                this.setData({
+                    expressPrice: res.data.Datas
+                })
+            }
+        })
     },
     SettleOrder2: function(e) {
         var IsExpress = this.data.IsExpress,

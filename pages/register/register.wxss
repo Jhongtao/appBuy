@@ -14,6 +14,10 @@ msthead+scroll-view {
     height: calc(100vh - 54px);
 }
 
+.input-placeholder {
+    font-size: 35rpx;
+}
+
 .masthead>navigator,
 .masthead>text {
     display: inline-block;
@@ -46,18 +50,18 @@ form view {
     position: relative;
 }
 
-form input.invalid~text {
-    color: #c00;
+form input {
+    position: relative;
 }
 
-form input.invalid~text::before {
-    content: '\F378';
-    font-family: 'Ionicons';
+form view>text {
+    position: absolute;
+    top: 0rpx;
+    right: 20rpx;
+}
+
+form input.invalid~text {
     color: #c00;
-    margin-right: 6px;
-    font-size: 18px;
-    position: relative;
-    top: 3px;
 }
 
 form input.valid~text::before {
