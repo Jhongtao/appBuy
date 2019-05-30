@@ -9,7 +9,8 @@ Page({
         slideshow: [],
         productsewm: [],
         productsBgsb: [],
-        productsDzyqj: []
+        productsDzyqj: [],
+        keywords: ''
     },
 
     onLoad: function() {
@@ -172,5 +173,15 @@ Page({
             //         // });
             //     }
             // });
-    }
+    },
+    updatekeyword(e) {
+        this.setData({
+            keywords: e.detail.value
+        })
+    },
+    navSearch: function(e) {
+        wx.navigateTo({
+            url: '/pages/search/search?key=' + this.data.keywords
+        })
+    },
 })

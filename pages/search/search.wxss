@@ -24,7 +24,10 @@ view.head {
 view.head input {
     border: 1px solid #eee;
     border-radius: 10rpx;
-    font-size: 30rpx;
+    font-size: 35rpx;
+    padding-left: 30rpx;
+    height: 65rpx;
+    line-height: 65rpx;
 }
 
 .sea-img {

@@ -28,7 +28,10 @@
 <block >
     <view class="fixed">
         <view class="head">
-            <text>{{cateName}}</text>
+            <!-- <text>{{cateName}}</text> -->
+            <!-- <text class="searchhandler" bindtap="startsearch">{{keyword?keyword:'搜索关键词'}}</text> -->
+            <image class="sea-img" src="/img/search.png" bindtap="searchkeyword" />
+             <input type="text" name="keyword" value="{{keyword}}" class="searchhandler" confirm-type="search" bindconfirm="searchkeyword"  placeholder="请输入搜索关键词" bindinput="updatekeyword" />
         </view>
         <view class="orderby {{orderFiled}} {{isDesc?'desc':'asc'}}">
             <view data-orderFiled="zh" bindtap="ordersearch">综合</view>

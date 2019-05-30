@@ -177,16 +177,20 @@ Page({
         this.setData({
             allkeyword: allkeyword
         });
-        console.log(e)
         dataApi.getGoodsByTitle({
             page: 1,
             rows: 20,
-            title: '贴'
+            title: this.data.keyword
         }, {
             token: this.data.token
-        }).then(res => console.log(res))
+        }).then(res => {
+            this.setData({
+                products: res.data.Datas
+            })
+        })
     },
     ordersearch: function(e) {
+
         var orderFiled1 = this.data.orderFiled;
         var isDesc = this.data.isDesc;
         var cid = this.data.cid;

@@ -5,6 +5,7 @@
     position: relative;
     /* padding-bottom: 200rpx; */
     width: 750rpx;
+    padding-top: 70rpx;
     /* height: 115vh; */
 }
 
@@ -17,6 +18,47 @@ swiper {
 swiper image {
     width: 100%;
     height: 100%;
+}
+
+view.head {
+    padding: 10rpx;
+    position: fixed;
+    width: 750rpx;
+    height: 80rpx;
+    box-sizing: border-box;
+    top: 0;
+    z-index: 50;
+    background-color: #2655B6;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+view.head input {
+    /* border: 1px solid #eee; */
+    border-radius: 18rpx;
+    background-color: rgba(255, 255, 255, .3);
+    /* border: 1px solid #eee; */
+    border-radius: 15rpx;
+    font-size: 30rpx;
+    padding-left: 30rpx;
+    color: #fff;
+    height: 65rpx;
+    line-height: 65rpx;
+}
+
+.sea-img {
+    position: absolute;
+    width: 50rpx;
+    height: 50rpx;
+    right: 220rpx;
+    z-index: 20;
+}
+
+view.head .input-placeholder {
+    font-size: 30rpx;
+    color: #fff;
 }
 
 navigator#search {

@@ -101,7 +101,15 @@ class DataApi extends Request {
         }
         //获取用户发票列表
     getInvoiceList(head) {
-        return this.getData('/User/GetInvoiceList', {}, head)
+            return this.getData('/User/GetInvoiceList', {}, head)
+        }
+        //发票编辑更新
+    upInvoice(params, head) {
+            return this.postData('/User/UpInvoice', params, head)
+        }
+        //删除发票
+    delInvoice(params, head) {
+        return this.getData('/User/DelInvoice', params, head)
     }
 
     //获取发票类型下拉框

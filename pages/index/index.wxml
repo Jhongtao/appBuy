@@ -1,6 +1,13 @@
 <!-- index.wxml -->
 <!-- <navigator wx:if="{{false}}" id="search" url="search"></navigator> -->
+
 <view class="page">
+        <view class="head">
+                   <!-- <text>{{cateName}}</text> -->
+                   <!-- <text class="searchhandler" bindtap="startsearch">{{keyword?keyword:'搜索关键词'}}</text> -->
+             <image class="sea-img" src="/img/search.png" bindtap="navSearch" />
+            <input type="text" name="keyword" value="{{keyword}}" class="searchhandler" confirm-type="search" bindconfirm="navSearch" placeholder="搜索商品" bindinput="updatekeyword" />
+        </view>
     <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="orange" autoplay="autoplay" current="0" circular="circular">
         <block wx:for="{{slideshow}}" wx:for-item="item" wx:key="index">
             <swiper-item>
@@ -22,7 +29,7 @@
 <text>发布商品</text>
 </navigator>
 </view> -->
-    <view id="h2">精选商品</view>
+        <view id="h2">精选商品</view>
     <view id="ewm" class="products" wx:if="{{productsewm[0]}}">
         <navigator url="/pages/products/products?cid=e99a9a2c00134f699aaa073f500e363c&cname=检测用二维码">
             <text>检测用二维码</text>
