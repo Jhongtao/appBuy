@@ -35,7 +35,7 @@ view.masthead {
     width: 500rpx;
     height: 80rpx;
     background-color: #2655B6;
-    border-radius: 40rpx;
+    border-radius: 20rpx;
     color: #f5f5f5;
     font-size: 35rpx;
     line-height: 80rpx;

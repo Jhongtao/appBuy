@@ -50,7 +50,7 @@
                     <view class="product_image">
                         <image src="https:{{item.TopPic}}" mode="aspectFit" />
                     </view>
-                    <view class="product_thumb">
+                    <view class="product_thumb" wx:if="{{false}}">
                         <block wx:for="{{item.Classify}}" wx:for-item="g" wx:key="index">
                             <image src="https:{{g.ClassifyPic}}" mode="aspectFit" />
                         </block>

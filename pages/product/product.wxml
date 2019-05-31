@@ -76,11 +76,14 @@
     </view>
     <view class="ordercount">
         <text class="ord-con">采购量：</text>    
+        <view class="control-btn">
         <text bindtap="minusordercount" class="control reduce {{ordercount<=1?'disabled':''}}">-</text>
-        <input confirm-type="done" bindconfirm="UpCartGoods" class="inp-num" type="number" bindblur="addpronum" value="{{ordercount}}"/>
+        <input confirm-type="done" bindconfirm="UpCartGoods" class="inp-num" type="number" bindinput="addpronum" value="{{ordercount}}"/>
         <!-- <text>{{ordercount}}</text> -->
         <text bindtap="addordercount" class="control add {{ordercount>=productinfo.Classify[ppindex].Total?'disabled':''}}">+</text>
-        <text class="ord-con">(库存{{productinfo.Classify[ppindex].Total}}{{productinfo.Classify[ppindex].FirstUnit}})</text>       
+        </view>
+        
+        <text class="ord-con">(库存{{productinfo.Classify[ppindex].Total-productinfo.Classify[ppindex].SoldCount}}{{productinfo.Classify[ppindex].FirstUnit}})</text>       
     </view>
     <view class="addbtn" bindtap="UpCartGoods">确　　定</view>
 </view>
@@ -99,7 +102,7 @@
         <swiper id="v0" indicator-dots="true" indicator-color="#999" indicator-active-color="orange" current="0" circular="true" current="{{ppindex+1}}" bindchange="swiperchange">
             <block wx:for="{{productinfo.Imgs}}" wx:for-item="item" wx:key="index">
                 <swiper-item>
-                    <image src="{{item}}" mode="aspectFit" />
+                    <image src="{{item}}" data-index="{{index}}" bindtap="showImg" mode="aspectFit" />
                 </swiper-item>
             </block>
         </swiper>

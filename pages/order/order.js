@@ -118,7 +118,7 @@ Page({
                         OrderTime = OrderTime.replace(/\b0(\d\d)/g, '$1');
                         List[index].OrderTime = OrderTime;
                     });
-                    List = List.concat(this.data.List, List);
+                    List = List.concat(this.data.List);
                     //console.log(List);
                     this.setData({
                         List: List,

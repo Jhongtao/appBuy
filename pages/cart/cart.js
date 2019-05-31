@@ -266,6 +266,19 @@ Page({
         }
         if (type == 'inp') {
             BuyCount = parseInt(e.detail.value)
+            var total = this.data.CartGoods[index].Total
+            var soldCount = this.data.CartGoods[index].SoldCount
+            if (BuyCount > total - soldCount) {
+                wx.showToast({
+                    title: '超出库存',
+                    icon: 'none',
+                    duration: 1000
+                })
+                BuyCount = total - soldCount
+            } else if (BuyCount < 1) {
+                BuyCount = 1
+            }
+
         }
         // if (offsetLeft < 50) BuyCount--;
         // else BuyCount++;
@@ -340,7 +353,7 @@ Page({
         wx.showModal({
             title: '提示',
             content: '是否删除该商品',
-            success(res) {
+            success: res => {
                 if (res.confirm) {
                     var index = e.currentTarget.dataset.index;
                     console.log(index);

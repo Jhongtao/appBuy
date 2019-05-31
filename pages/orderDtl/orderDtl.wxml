@@ -24,9 +24,9 @@
 <view><text>确认收货</text><text></text></view>
 </view>
 </view>
-<view>金额总计：<text class="meo">{{order.TotalPrice}}</text>（包含快递费{{order.ExpressFee}}元）</view>
-<view>物流公司：{{order.Discounts}} </view>
-<view>快递单号：{{order.ExpressNumber}}</view>
+<view>金额总计：<text class="meo">{{order.TotalPrice==order.Discounts?order.TotalPrice:order.Discounts}}</text>（包含快递费{{order.ExpressFee}}元）</view>
+<view wx:if="{{false}}">物流公司：{{order.Discounts}} </view>
+<view wx:if="{{false}}">快递单号：{{order.ExpressNumber}}</view>
 </view>
 </view>
 <view class="panel">

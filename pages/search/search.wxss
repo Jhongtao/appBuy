@@ -23,9 +23,9 @@ view.head {
 
 view.head input {
     border: 1px solid #eee;
-    border-radius: 10rpx;
+    border-radius: 20rpx;
     font-size: 35rpx;
-    padding-left: 30rpx;
+    padding-left: 50rpx;
     height: 65rpx;
     line-height: 65rpx;
 }
@@ -34,7 +34,7 @@ view.head input {
     position: absolute;
     width: 50rpx;
     height: 50rpx;
-    right: 200rpx;
+    left: 170rpx;
     z-index: 20;
 }
 

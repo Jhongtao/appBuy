@@ -5,11 +5,13 @@
         <text>提现列表</text>
     </view>
     <block wx:if="{{s==1}}">
-        <block wx:if="{{!payInfo}}">
+        <block wx:if="{{!payInfo.OthBankPayeeSubAcc}}">
             <view class="alert" bindtap="switchss">暂未注册账号信息，点此注册支付账号</view>
         </block>
         <block wx:else>
-            <view class="info" bindtap="switchss">已经注册支付帐号，点此提现</view>
+            <!--bindtap="switchss" -->
+            <view class="info" >已经注册支付帐号<text class="nocard" bindtap="unBindCard" wx:if="{{payInfo.IsBind}}">解绑</text><text bindtap="bindCard" class="iscard" wx:else>绑卡</text></view>
+            <!-- <view class="info" wx:if="{{!payInfo.IsBind}}" bindtap="switchss">已经注册支付帐号，点此提现</view> -->
             <view class="table">
                 <view>
                     <view>交易名称：</view>

@@ -5,7 +5,8 @@
         <view class="head">
                    <!-- <text>{{cateName}}</text> -->
                    <!-- <text class="searchhandler" bindtap="startsearch">{{keyword?keyword:'搜索关键词'}}</text> -->
-             <image class="sea-img" src="/img/search.png" bindtap="navSearch" />
+            <image src="/img/classify.png" class="class-img" />
+            <image class="sea-img" src="/img/search.png" bindtap="navSearch" />
             <input type="text" name="keyword" value="{{keyword}}" class="searchhandler" confirm-type="search" bindconfirm="navSearch" placeholder="搜索商品" bindinput="updatekeyword" />
         </view>
     <swiper indicator-dots="true" indicator-color="#999" indicator-active-color="orange" autoplay="autoplay" current="0" circular="circular">

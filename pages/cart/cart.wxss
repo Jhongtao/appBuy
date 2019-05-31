@@ -146,7 +146,7 @@ view.listitem>view:nth-of-type(n+3) {
     width: 88px;
     flex: auto 1 1;
     font-size: 14px;
-    justify-content: center;
+    justify-content: space-around;
     display: flex;
     align-items: center;
     padding-top: 6px;
@@ -185,7 +185,6 @@ view.count>text:last-of-type {
 }
 
 view.count>text:nth-of-type(2) {
-    border: 1px solid #ccc;
     width: 42px;
 }
 
@@ -225,11 +224,12 @@ text.price {
     margin-right: 10rpx;
 }
 
-view.listitem>view:nth-of-type(2).price-info {
+
+/* view.listitem>view:nth-of-type(2).price-info {
     display: block;
     border: 1px blue solid;
     flex-direction: row;
-}
+} */
 
 view.listitem>view:nth-of-type(2)>text:first-of-type {
     font-size: 14px;

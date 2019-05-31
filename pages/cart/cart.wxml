@@ -1,154 +1,280 @@
-<!--pages/user/cart.wxml-->
+<!-- pages/user/cart.wxml -->
 <block wx:if="{{CartGoods.length==0}}">
-<view class="cartgoods">
-  <image src="/img/cart.svg"  mode="aspectFit" />
-  <navigator wx:if="{{token==''}}" url="/pages/login/login">请先登录</navigator>
-  <text wx:else>购物车还是空的...</text>
-</view>
+  <view class="cartgoods">
+    <image src="/img/cart.svg" mode="aspectFit" />
+    <navigator wx:if="{{token==''}}" url="/pages/login/login">请先登录</navigator>
+    <text wx:else>购物车还是空的...</text>
+  </view>
 </block>
 <block wx:else>
-<block wx:if="{{s}}">
-<scroll-view scroll-y class="list">
-<block wx:for="{{CartGoods}}" wx:for-item="item" wx:key="index">
-<view wx:if="{{index==0||item.SellerId!=CartGoods[index-1].SellerId}}" class="listdt">
-<text class="{{item.checkedall?'checkedbox':'uncheckbox'}}" data-index="{{index}}" bindtap="checkall"></text>{{item.SellerName}}
-</view>
-<view class="listitem">
-<view><text data-index="{{index}}" class="{{item.checked?'checkedbox':'uncheckbox'}}" bindtap="check"></text></view>
-<image src="http:{{item.ClassifyPic}}" mode="aspectFit" />
-<view>
-<text>{{item.Title}}</text>
-<text>{{item.ClassifyName}}</text>
-<text>库存：{{item.Total-item.SoldCount}} 件</text>
-</view>
-<view>￥{{item.PrefPrice}}</view>
-<view class="count"><text  data-i="{{index}}" data-type="reduce" bindtap="changegoodcount">-</text><input class="inp-buy-count" data-i="{{index}}" data-type="inp" type="number" bindinput="changegoodcount" value="{{item.BuyCount}}" /><text data-i="{{index}}" data-type="add" bindtap="changegoodcount">+</text>
-</view>
-<view class="price-info"><text class="price">￥{{item.PrefPrice*item.BuyCount}}</text><text bindtap="delgood" class="order-del" data-index="{{index}}">删除</text></view>
-
-</view>
+  <block wx:if="{{s}}">
+    <scroll-view scroll-y class="list">
+      <block wx:for="{{CartGoods}}" wx:for-item="item" wx:key="index">
+        <view wx:if="{{index==0||item.SellerId!=CartGoods[index-1].SellerId}}" class="listdt">
+          <text class="{{item.checkedall?'checkedbox':'uncheckbox'}}" data-index="{{index}}" bindtap="checkall"></text>
+          {{item.SellerName}}
+        </view>
+        <view class="listitem">
+          <view>
+            <text data-index="{{index}}" class="{{item.checked?'checkedbox':'uncheckbox'}}" bindtap="check"></text>
+          </view>
+          <image src="http:{{item.ClassifyPic}}" mode="aspectFit" />
+          <view>
+            <text>{{item.Title}}</text>
+            <text>{{item.ClassifyName}}</text>
+            <text>库存：{{item.Total-item.SoldCount}} 件</text>
+          </view>
+          <view>￥{{item.PrefPrice}}</view>
+          <view class="count">
+            <text data-i="{{index}}" data-type="reduce" bindtap="changegoodcount">-</text>
+            <input class="inp-buy-count" data-i="{{index}}" data-type="inp" type="number" bindinput="changegoodcount" value="{{item.BuyCount}}" />
+            <text data-i="{{index}}" data-type="add" bindtap="changegoodcount">+</text>
+          </view>
+          <view class="price-info">
+            <text class="price">￥{{item.PrefPrice*item.BuyCount}}</text>
+            <text bindtap="delgood" class="order-del" data-index="{{index}}">删除</text>
+          </view>
+        </view>
+      </block>
+    </scroll-view>
+    <view class="actionbar">
+      <view>
+        <text class="{{checkedall?'checkedbox':'uncheckbox'}}" bindtap="checkall"></text>
+      </view>
+      <view>
+        已选产品
+        <text>{{totalBuyCount}}</text>
+        件，合计
+        <text class="price">{{totalPrice}}</text>
+        元
+      </view>
+      <view bindtap="SettleOrder" class="settle-order {{totalBuyCount==0?'disabled':''}}">结　算</view>
+    </view>
+  </block>
+  <block wx:else>
+    <scroll-view scroll-y class="list">
+      <view class="listdt">快递方式</view>
+      <view class="listbg">
+        <block wx:if="{{IsExpress}}">
+          <view class="option selected">
+            <text>快递送货</text>
+          </view>
+          <view class="option" bindtap="changeexpress">
+            <text>商品自提</text>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="option" bindtap="changeexpress">
+            <text>快递送货</text>
+          </view>
+          <view class="option selected">
+            <text>商品自提</text>
+          </view>
+        </block>
+      </view>
+      <block wx:if="{{IsExpress}}">
+        <view class="listdt">
+          收货人信息
+          <text class="tr" bindtap="switchss">添加收货地址</text>
+        </view>
+        <view class="listbg">
+          <block wx:if="{{ss==2}}">
+            <block wx:for="{{AddressList}}" wx:for-item="item" wx:key="index">
+              <view class="option {{item.IsDefault?'selected':''}}" data-index="{{index}}" bindtap="changeaddress">
+                <text>{{item.ReUser}}</text>
+                <text>{{item.ProvinceName}} {{item.CityName}} {{item.AreaName}}</text>
+              </view>
+            </block>
+          </block>
+          <block wx:else>
+            <block wx:for="{{AddressList}}" wx:for-item="item" wx:key="index">
+              <view class="option {{item.IsDefault?'selected':'hide'}}">
+                <text>{{item.ReUser}}</text>
+                <text>{{item.ProvinceName}} {{item.CityName}} {{item.AreaName}}</text>
+              </view>
+            </block>
+          </block>
+          <text class="tip {{ss=='2'?'arrowdown':'arrowup'}}" bindtap="switchss">
+            {{ss==2?'收起地址':'更多地址'}}
+          </text>
+        </view>
+      </block>
+      <block wx:else>
+        <view class="listdt">自提人信息</view>
+        <view class="listbg">
+          <form name="Zt" bindsubmit="saveZt">
+            <view>
+              <input type="text" name="ZtUser" placeholder="请填写自提人姓名" bindinput="updateZtUser" />
+            </view>
+            <view>
+              <input type="text" name="ZtPhone" placeholder="请填写联系电话" bindinput="uploadZtPhone" />
+            </view>
+          </form>
+        </view>
+      </block>
+      <view class="listdt">
+        发票信息
+        <text class="tr" bindtap="switchss">添加发票信息</text>
+      </view>
+      <view class="listbg">
+        <view class="option {{IsInvoice? '':'selected'}}" bindtap="changeInvoice">
+          <text>不需要发票</text>
+        </view>
+        <block wx:if="{{!InvoiceList&&InvoiceList.length>0}}" wx:for="{{InvoiceList}}" wx:for-item="item" wx:key="index">
+          <view class="option {{InvoiceId==item.Id?'selected':''}}" data-id="{{item.Id}}" bindtap="changeInvoice">
+            <text>{{item.InvTypeName}}</text>
+            <text>{{item.InvTitleTypeName}} {{item.InvoiceTitle}}</text>
+          </view>
+        </block>
+      </view>
+      <view class="listdt">支付方式</view>
+      <view class="listbg">
+        <view class="option selected">
+          <text>在线支付</text>
+        </view>
+      </view>
+      <view class="listdt">订单信息</view>
+      <view class="listbg">
+        <block wx:for="{{CartGoods}}" wx:for-item="item" wx:key="index">
+          <block wx:if="{{item.checked}}">
+            <view class="item">
+              <view>
+                <image src="https:{{item.ClassifyPic}}" mode="aspectFit" />
+              </view>
+              <view>
+                <text>{{item.Title}}</text>
+                <text>{{item.ClassifyName}}</text>
+                <text>
+                  ￥{{item.PrefPrice}} × {{item.BuyCount}} = ￥{{item.PrefPrice * item.BuyCount}}
+                </text>
+              </view>
+            </view>
+          </block>
+        </block>
+        <view style="background-color:#f1f1f1;text-align:right;font-size:13px;padding:6px 12px 9px 12px;color:#555;line-height:1.5;">
+          <view>
+            商品总额：
+            <text class="meo">{{totalPrice}}</text>
+          </view>
+          <view>
+            快递费用：
+            <text class="meo">{{expressPrice}}</text>
+          </view>
+          <view>
+            应付金额：
+            <text class="meo">{{totalPrice+expressPrice}}</text>
+          </view>
+          <view wx:if="{{IsExpress}}">
+            寄送至：
+            <block wx:for="{{AddressList}}" wx:for-item="item" wx:key="index">
+              <block wx:if="{{item.IsDefault}}">
+                {{item.ProvinceName}} {{item.CityName}} {{item.AreaName}}
+              </block>
+            </block>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+    <view class="actionbar">
+      <view></view>
+      <view bindtap="SettleOrder">返回修改采购内容</view>
+      <view class="settle-order" bindtap="SettleOrder2">提交订单</view>
+    </view>
+  </block>
 </block>
-</scroll-view>
-<view class="actionbar">
-<view>
-<text class="{{checkedall?'checkedbox':'uncheckbox'}}" bindtap="checkall"></text>
-</view>
-<view>已选产品<text>{{totalBuyCount}}</text>件，合计<text class="price">{{totalPrice}}</text>元</view>
-<view bindtap="SettleOrder" class="settle-order {{totalBuyCount==0?'disabled':''}}">结　算</view>
-</view>
-</block>
-<block wx:else>
-<scroll-view scroll-y class="list">
-<view class="listdt">快递方式</view>
-<view class="listbg">
-<block wx:if="{{IsExpress}}">
-<view class="option selected"><text>快递送货</text></view>
-<view class="option" bindtap="changeexpress"><text>商品自提</text></view>
-</block>
-<block wx:else>
-<view class="option" bindtap="changeexpress"><text>快递送货</text></view>
-<view class="option selected"><text>商品自提</text></view>
-</block>
-</view>
-<block wx:if="{{IsExpress}}">
-<view class="listdt">收货人信息<text class="tr" bindtap="switchss">添加收货地址</text></view>
-<view class="listbg">
-<block wx:if="{{ss==2}}">
-<block wx:for="{{AddressList}}" wx:for-item="item" wx:key="index">
-<view class="option {{item.IsDefault?'selected':''}}" data-index="{{index}}" bindtap="changeaddress">
-<text>{{item.ReUser}}</text><text>{{item.ProvinceName}} {{item.CityName}} {{item.AreaName}}</text>
-</view>
-</block>
-</block>
-<block wx:else>
-<block wx:for="{{AddressList}}" wx:for-item="item" wx:key="index">
-<view class="option {{item.IsDefault?'selected':'hide'}}">
-<text>{{item.ReUser}}</text><text>{{item.ProvinceName}} {{item.CityName}} {{item.AreaName}}</text>
-</view>
-</block>
-</block>
-<text class="tip {{ss=='2'?'arrowdown':'arrowup'}}" bindtap="switchss">{{ss==2?'收起地址':'更多地址'}}</text>
-</view>
-</block>
-<block wx:else>
-<view class="listdt">自提人信息</view>
-<view class="listbg">
-<form name="Zt" bindsubmit="saveZt">
-<view>
-<input type="text" name="ZtUser" placeholder="请填写自提人姓名" bindinput="updateZtUser"/></view>
-<view>
-<input type="text" name="ZtPhone" placeholder="请填写联系电话" bindinput="uploadZtPhone"/></view>
-</form>
-</view>
-</block>
-<view class="listdt">发票信息<text class="tr" bindtap="switchss">添加发票信息</text></view>
-<view class="listbg">
-<view class="option {{IsInvoice? '':'selected'}}" bindtap="changeInvoice"><text>不需要发票</text></view>
-<block wx:if="{{!InvoiceList&&InvoiceList.length>0}}" wx:for="{{InvoiceList}}" wx:for-item="item" wx:key="index">
-<view class="option {{InvoiceId==item.Id?'selected':''}}" data-id="{{item.Id}}" bindtap="changeInvoice">
-<text>{{item.InvTypeName}}</text><text>{{item.InvTitleTypeName}} {{item.InvoiceTitle}}</text>
-</view>
-</block>
-</view>
-<view class="listdt">支付方式</view>
-<view class="listbg">
-<view class="option selected"><text>在线支付</text></view>
-</view>
-<view class="listdt">订单信息</view>
-<view class="listbg">
-<block wx:for="{{CartGoods}}" wx:for-item="item" wx:key="index">
-<block wx:if="{{item.checked}}">
-<view class="item"><view><image src="https:{{item.ClassifyPic}}" mode="aspectFit" /></view>
-<view><text>{{item.Title}}</text><text>{{item.ClassifyName}}</text><text>￥{{item.PrefPrice}} × {{item.BuyCount}} = ￥{{item.PrefPrice * item.BuyCount}}  </text></view>
-</view>
-</block>
-</block>
-<view style="background-color:#f1f1f1;text-align:right;font-size:13px;padding:6px 12px 9px 12px;color:#555;line-height:1.5;">
-<view>商品总额：<text class="meo">{{totalPrice}}</text></view>
-<view>快递费用：<text class="meo">{{expressPrice}}</text></view>
-<view>应付金额：<text class="meo">{{totalPrice+expressPrice}}</text></view>
-<view wx:if="{{IsExpress}}">寄送至：<block wx:for="{{AddressList}}" wx:for-item="item" wx:key="index"><block wx:if="{{item.IsDefault}}">{{item.ProvinceName}} {{item.CityName}} {{item.AreaName}}</block></block></view></view>
-</view>
-</scroll-view>
-<view class="actionbar"><view></view><view bindtap="SettleOrder">返回修改采购内容</view><view class="settle-order" bindtap="SettleOrder2">提交订单</view></view>
-</block></block>
 <view class="model {{ss==1?'show':'hide'}}">
-<view class="modelhead" bindtap="switchss">收货地址</view>
-<scroll-view scroll-y="true">
-<form bindsubmit="saveAddress">
-<view>
-<picker mode="multiSelector" name="region" bindchange="getRegion" bindcolumnchange="changeRegion" value="{{regionVal}}" range="{{regionArr}}" bindcancel="resetRegion"><view wx:if="{{!regionName}}" class="placeholder">请选择省市区</view><view wx:else class="picker">{{regionName}}</view></picker><text></text>
+  <view class="modelhead" bindtap="switchss">收货地址</view>
+  <scroll-view scroll-y="true">
+    <form bindsubmit="saveAddress">
+      <view>
+        <picker mode="multiSelector" name="region" bindchange="getRegion" bindcolumnchange="changeRegion" value="{{regionVal}}" range="{{regionArr}}" bindcancel="resetRegion">
+          <view wx:if="{{!regionName}}" class="placeholder">请选择省市区</view>
+          <view wx:else class="picker">{{regionName}}</view>
+        </picker>
+        <text></text>
+      </view>
+      <view>
+        <input type="text" name="address" placeholder="请填写详细地址" value="{{address.Address}}" />
+        <text></text>
+      </view>
+      <view>
+        <input type="number" name="postCode" placeholder="请填写邮政编码" value="{{address.PostCode}}" maxlength="6" />
+        <text></text>
+      </view>
+      <view>
+        <input type="text" name="reUser" placeholder="请填写收货人姓名" value="{{address.ReUser}}" />
+        <text></text>
+      </view>
+      <view>
+        <input type="number" name="rePhone" placeholder="请填写收货人手机号" value="{{address.RePhone}}" maxlength="11" />
+        <text></text>
+      </view>
+      <view>
+        默认地址？
+        <switch name="IsDefault" style="zoom:.6;" checked="{{address.IsDefault}}" bindchange="switch1Change" />
+        <text></text>
+      </view>
+      <button class="save-btn" form-type="submit">保存地址</button>
+    </form>
+  </scroll-view>
 </view>
-<view><input type="text" name="address" placeholder="请填写详细地址" value="{{address.Address}}" /><text></text></view>
-<view><input type="number" name="postCode" placeholder="请填写邮政编码" value="{{address.PostCode}}" maxlength="6" /><text></text></view>
-<view><input type="text" name="reUser" placeholder="请填写收货人姓名" value="{{address.ReUser}}"/><text></text></view>
-<view><input type="number" name="rePhone" placeholder="请填写收货人手机号" value="{{address.RePhone}}" maxlength="11"/><text></text></view>
-<view>默认地址？<switch name="IsDefault" style="zoom:.6;" checked="{{address.IsDefault}}" bindchange="switch1Change" /><text></text></view>
-<button class="save-btn" form-type="submit">保存地址</button>
-</form></scroll-view>
-</view><view bindtap="switchss"></view>
+<view bindtap="switchss"></view>
 <view class="model {{ss==3?'show':'hide'}}">
-<view class="modelhead" bindtap="switchss">发票信息</view>
-<scroll-view scroll-y="true">
-<form bindsubmit="saveInvoice">
-<view>
-<picker mode="selector" name="InvoiceType" placeholder="请选择发票类型" bindchange="changeInvoiceType" value="{{InvoiceType}}" range="{{InvoiceTypeList}}" range-key="Name"><text> {{InvoiceTypeList[InvoiceType].Name}}</text></picker><text></text></view>
-<block wx:if="{{InvoiceType==1||InvoiceType==2}}">
-<view>
-<picker mode="selector" name="InvTitleType" placeholder="请选择发票抬头类型" bindchange="changeInvTitleType" value="{{InvTitleType}}" range="{{InvTitleTypeList}}" range-key="Name"><text>{{InvTitleTypeList[InvTitleType].Name}}</text></picker><text></text></view>
-</block>
-<view><input type="text" name="InvoiceTitle"  placeholder="请填写发票抬头"/><text></text></view>
-<view><input type="number" name="DutyNumber" placeholder="请填写税号" /><text></text></view>
-<block wx:if="{{InvoiceType==0}}">
-<view><input type="text" name="Address" placeholder="请填写注册地址" /><text></text></view>
-<view><input type="number" name="Phone" placeholder="请填写注册电话" /><text></text></view>
-<view><input type="text" name="BankName" placeholder="请填写开户银行" /><text></text></view>
-<view><input type="number" name="BankAccount" placeholder="请填写银行账号" /><text></text></view>
-</block>
-<view>
-<picker mode="selector" placeholder="请选择发票内容" name="InvContentType" bindchange="changeInvContentType" value="{{InvContentType}}" range="{{InvContentTypeList}}" range-key="Name"><text> {{InvContentTypeList[InvContentType].Name}}</text></picker><text></text>
+  <view class="modelhead" bindtap="switchss">发票信息</view>
+  <scroll-view scroll-y="true">
+    <form bindsubmit="saveInvoice">
+      <view>
+        <picker mode="selector" name="InvoiceType" placeholder="请选择发票类型" bindchange="changeInvoiceType" value="{{InvoiceType}}" range="{{InvoiceTypeList}}" range-key="Name">
+          <text>{{InvoiceTypeList[InvoiceType].Name}}</text>
+        </picker>
+        <text></text>
+      </view>
+      <block wx:if="{{InvoiceType==1||InvoiceType==2}}">
+        <view>
+          <picker mode="selector" name="InvTitleType" placeholder="请选择发票抬头类型" bindchange="changeInvTitleType" value="{{InvTitleType}}" range="{{InvTitleTypeList}}" range-key="Name">
+            <text>{{InvTitleTypeList[InvTitleType].Name}}</text>
+          </picker>
+          <text></text>
+        </view>
+      </block>
+      <view>
+        <input type="text" name="InvoiceTitle" placeholder="请填写发票抬头" />
+        <text></text>
+      </view>
+      <view>
+        <input type="number" name="DutyNumber" maxlength="18" placeholder="请填写税号" />
+        <text></text>
+      </view>
+      <block wx:if="{{InvoiceType==0}}">
+        <view>
+          <input type="text" name="Address" placeholder="请填写注册地址" />
+          <text></text>
+        </view>
+        <view>
+          <input type="number" name="Phone" placeholder="请填写注册电话" />
+          <text></text>
+        </view>
+        <view>
+          <input type="text" name="BankName" placeholder="请填写开户银行" />
+          <text></text>
+        </view>
+        <view>
+          <input type="number" name="BankAccount" placeholder="请填写银行账号" />
+          <text></text>
+        </view>
+      </block>
+      <view>
+        <picker mode="selector" placeholder="请选择发票内容" name="InvContentType" bindchange="changeInvContentType" value="{{InvContentType}}" range="{{InvContentTypeList}}" range-key="Name">
+          <text>{{InvContentTypeList[InvContentType].Name}}</text>
+        </picker>
+        <text></text>
+      </view>
+      <view>
+        <textarea name="Notes" placeholder="请填写备注" auto-height="true" />
+        <text></text>
+      </view>
+      <button class="save-btn" form-type="submit">保存发票</button>
+    </form>
+  </scroll-view>
 </view>
-<view><textarea name="Notes" placeholder="请填写备注" auto-height="true" /><text></text></view>
-<button class="save-btn" form-type="submit">保存发票</button>
-</form></scroll-view>
-</view><view bindtap="switchss"></view>
+<view bindtap="switchss"></view>

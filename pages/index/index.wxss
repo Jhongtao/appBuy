@@ -5,7 +5,7 @@
     position: relative;
     /* padding-bottom: 200rpx; */
     width: 750rpx;
-    padding-top: 70rpx;
+    padding-top: 82rpx;
     /* height: 115vh; */
 }
 
@@ -24,14 +24,14 @@ view.head {
     padding: 10rpx;
     position: fixed;
     width: 750rpx;
-    height: 80rpx;
+    height: 100rpx;
     box-sizing: border-box;
     top: 0;
     z-index: 50;
     background-color: #2655B6;
     overflow: hidden;
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     align-items: center;
 }
 
@@ -40,24 +40,31 @@ view.head input {
     border-radius: 18rpx;
     background-color: rgba(255, 255, 255, .3);
     /* border: 1px solid #eee; */
-    border-radius: 15rpx;
-    font-size: 30rpx;
-    padding-left: 30rpx;
+    width: 70%;
+    border-radius: 50rpx;
+    font-size: 32rpx;
+    padding-left: 80rpx;
     color: #fff;
-    height: 65rpx;
-    line-height: 65rpx;
+    height: 82rpx;
+    line-height: 41rpx;
+}
+
+.class-img {
+    width: 60rpx;
+    height: 60rpx;
+    margin-right: 10rpx;
 }
 
 .sea-img {
     position: absolute;
-    width: 50rpx;
-    height: 50rpx;
-    right: 220rpx;
+    width: 60rpx;
+    height: 60rpx;
+    left: 130rpx;
     z-index: 20;
 }
 
 view.head .input-placeholder {
-    font-size: 30rpx;
+    font-size: 32rpx;
     color: #fff;
 }
 

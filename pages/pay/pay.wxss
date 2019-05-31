@@ -72,6 +72,21 @@ view.info {
     text-align: center;
 }
 
+.nocard,
+.iscard {
+    padding: 10rpx 20rpx;
+    /* border: 1px solid red; */
+    margin-left: 50rpx;
+}
+
+.nocard {
+    color: rosybrown;
+}
+
+.iscard {
+    color: greenyellow;
+}
+
 
 /* view.info::before {
     content: "\F374";

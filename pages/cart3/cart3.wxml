@@ -1,52 +1,119 @@
-<!--pages/user/cart2.wxml-->
+<!-- pages/user/cart2.wxml -->
 <view class="listbg" style="font-size:13px;line-height:1.5;text-align:center;height:82px;overflow:hidden;">
-<view>订单在<text style="color:#E31613;font-family:Verdana;">{{OrderTime}}</text>提交请尽快付款</view>
-<view>请您在<text style="color:#E31613">24</text>小时内完成支付，否则订单会被自动取消（库存紧俏订单参见详情页时限）</view>
+    <view>
+        订单在
+        <text style="color:#E31613;font-family:Verdana;">{{OrderTime}}</text>
+        提交请尽快付款
+    </view>
+    <view>
+        请您在
+        <text style="color:#E31613">24</text>
+        小时内完成支付，否则订单会被自动取消（库存紧俏订单参见详情页时限）
+    </view>
 </view>
 <view style="height:5px;background-image:repeating-linear-gradient(45deg, red 0px,red 10px,#fff 10px,#fff 20px,blue 20px,blue 30px,#fff 30px,#fff 40px)"></view>
 <scroll-view class="list" scroll-y="true">
-<view class="listdt">订单信息</view>
-<view  class="listbg">
-<view style="height:28px;color:#555;font-size:13px;">订单号：<text style="color:#36f;font-size:16px;">{{OrderId}}</text></view>
-<view style="height:28px;color:#555;font-size:13px;">金额总计：<text class="meo">{{RealPrice}}</text><text style="color:#555;padding-left:12px;">(包括快递费{{ExpressFee}}元)</text></view>
-<view style="color:#555;font-size:13px;">配送至：<block wx:if="{{IsExpress}}">{{Address}}</block><block wx:else>商家自提点</block></view>
-<view class="listdt">商家：{{SeRealName}}</view>
-<block wx:for="{{Goods}}" wx:for-item="item" wx:key="index">
-<view class="listitem">
-<view><image src="https:{{item.ClassifyPic}}" mode="aspectFit" /></view>
-<view style="padding-top:6px;"><text>{{item.Title}}</text><text>{{item.ClassifyName}}</text><text>￥{{item.PrefPrice}} × {{item.Number}} = ￥{{item.PrefPrice*item.Number}}</text></view>
-</view>
-</block>
-</view>
-<view class="listdt">支付方式</view>
-<view class="listbg">
-<view><text class="card"></text><text style="color:#2080D0;font-weight:bold;">华夏银行</text><text style="font-size:14px;color:#555;float:right;">{{payInfo.OthBankPayeeSubAccMask}} 储蓄卡 | 快捷</text></view><view style="text-align:right;font-size:13px;color:#555;line-height:1.5;">余额<text class="meo">{{balance}}</text></view>
-</view>
+    <view class="listdt">订单信息</view>
+    <view class="listbg">
+        <view style="height:28px;color:#555;font-size:13px;">
+            订单号：
+            <text style="color:#36f;font-size:16px;">{{OrderId}}</text>
+        </view>
+        <view style="height:28px;color:#555;font-size:13px;">
+            金额总计：
+            <text class="meo">{{Discounts==RealPrice?RealPrice:Discounts}}</text>
+            <text style="color:#555;padding-left:12px;">(包括快递费{{ExpressFee}}元)</text>
+        </view>
+        <view style="color:#555;font-size:13px;">
+            配送至：
+            <block wx:if="{{IsExpress}}">{{Address}}</block>
+            <block wx:else>商家自提点</block>
+        </view>
+        <view class="listdt">商家：{{SeRealName}}</view>
+        <block wx:for="{{Goods}}" wx:for-item="item" wx:key="index">
+            <view class="listitem">
+                <view>
+                    <image src="https:{{item.ClassifyPic}}" mode="aspectFit" />
+                </view>
+                <view style="padding-top:6px;">
+                    <text>{{item.Title}}</text>
+                    <text>{{item.ClassifyName}}</text>
+                    <text>
+                        ￥{{item.PrefPrice}} × {{item.Number}} = ￥{{item.PrefPrice*item.Number}}
+                    </text>
+                </view>
+            </view>
+        </block>
+    </view>
+    <view class="listdt">支付方式</view>
+    <view class="listbg">
+        <view class="bank-info">
+            <view >
+            <text class="card"></text>
+            <text style="color:#2080D0;font-weight:bold;">华夏银行</text>
+            </view>        
+            <view style="font-size:14px;color:#555;float:right;">
+                {{payInfo.OthBankPayeeSubAccMask}} 储蓄卡 | 快捷
+            </view>
+        </view>
+        <view style="text-align:right;font-size:13px;color:#555;line-height:1.5; display:flex;justify-content:flex-end;align-items:center;">
+            <text>余额</text>
+            <text class="meo">{{balance}}</text>
+        </view>
+    </view>
 </scroll-view>
 <view class="actionbar">
-<view>金额总计：<text class="meo">{{RealPrice}}</text></view>
-<view bindtap="SettleOrder">确认付款</view>
+    <view>
+        金额总计：
+        <text class="meo">{{Discounts==RealPrice?RealPrice:Discounts}}</text>
+    </view>
+    <view bindtap="SettleOrder">确认付款</view>
 </view>
 <view class="model {{ss==4?'show':'hide'}}">
-<view class="modelhead" bindtap="switchss">银行交易账户充值</view>
-<view class="table">
-<view><view>交易名称</view><view>{{payInfo.TradeMemBerName}}<view style="color:#DE0144;font-size:12px;">此名称就是汇款时的账户名称</view></view></view>
-<view><view>交易账户</view><view>{{payInfo.OthBankPayeeSubAcc}}</view></view>
-<view><view>开户银行</view><view>{{payInfo.OthBankPayeeSubAccSetteName}}</view></view>
-<view><view>账户余额</view><view>{{balance}} <text style="color:#2655B6" bindtap="checkbalance">刷新</text></view></view>
+    <view class="modelhead" bindtap="switchss">银行交易账户充值</view>
+    <view class="table">
+        <view>
+            <view>交易名称</view>
+            <view>
+                {{payInfo.TradeMemBerName}}
+                <view style="color:#DE0144;font-size:12px;">此名称就是汇款时的账户名称</view>
+            </view>
+        </view>
+        <view>
+            <view>交易账户</view>
+            <view>{{payInfo.OthBankPayeeSubAcc}}</view>
+        </view>
+        <view>
+            <view>开户银行</view>
+            <view>{{payInfo.OthBankPayeeSubAccSetteName}}</view>
+        </view>
+        <view>
+            <view>账户余额</view>
+            <view>
+                {{balance}}
+                <text style="color:#2655B6" bindtap="checkbalance">刷新</text>
+            </view>
+        </view>
+    </view>
+    <view style="margin:12px;font-size:14px;line-height:2;color:#555;">
+        <view style="color:#DE0144;">1. 汇款时的账户名称即为交易名称，请不要输错。</view>
+        <view>2. 使用任何银行的手机银行往交易账户(991开头)转账。</view>
+        <view>3. 交易账户的开户行请选择"华夏银行"。</view>
+        <view>4. 转账成功以后，一般1-3分钟会到账，请3分钟后刷新余额。</view>
+        <view style="color:#DE0144">5. 暂不支持支付宝、微信转帐，仅支持（手机）银行转帐，敬请谅解。</view>
+    </view>
 </view>
-<view style="margin:12px;font-size:14px;line-height:2;color:#555;">
-<view style="color:#DE0144;">1. 汇款时的账户名称即为交易名称，请不要输错。</view>
-<view>2. 使用任何银行的手机银行往交易账户(991开头)转账。</view>
-<view>3. 交易账户的开户行请选择"华夏银行"。</view>
-<view>4. 转账成功以后，一般1-3分钟会到账，请3分钟后刷新余额。</view>
-<view style="color:#DE0144">5. 暂不支持支付宝、微信转帐，仅支持（手机）银行转帐，敬请谅解。</view>
-</view>
-</view><view bindtap="switchss"></view>
+<view bindtap="switchss"></view>
 <view class="model {{ss==5?'show':'hide'}}" style="height:160px;">
-<view class="modelhead" bindtap="switchss">输入验证码支付订单</view>
-<form bindsubmit="SettleOrder2">
-<view><input type="number" name="verifyCode" placeholder="请输入手机验证码" maxlength="6" /><text></text></view>
-<view><button form-type="submit">付款</button></view>
-</form>
-</view><view bindtap="switchss"></view>
+    <view class="modelhead" bindtap="switchss">输入验证码支付订单</view>
+    <form bindsubmit="SettleOrder2">
+        <view>
+            <input type="number" name="verifyCode" placeholder="请输入手机验证码" maxlength="6" />
+            <text></text>
+        </view>
+        <view>
+            <button form-type="submit">付款</button>
+        </view>
+    </form>
+</view>
+<view bindtap="switchss"></view>

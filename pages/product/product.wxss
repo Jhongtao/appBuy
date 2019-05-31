@@ -289,6 +289,7 @@ view.ordercount {
     /* border: 1px solid red; */
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 6px 12px;
     color: #999;
     vertical-align: middle;
@@ -298,24 +299,28 @@ view.ordercount {
     margin-bottom: 20rpx;
 }
 
+view.ordercount .control-btn {
+    display: flex;
+}
+
 text.control {
     border: 1px solid #ddd;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 45px;
-    height: 45px;
+    width: 80rpx;
+    height: 85rpx;
     font-size: 40rpx;
 }
 
 .control.reduce {
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20rpx;
+    border-bottom-left-radius: 20rpx;
 }
 
 .control.add {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20rpx;
+    border-bottom-right-radius: 20rpx;
 }
 
 
@@ -334,10 +339,12 @@ text.control {
 
 .inp-num {
     /* border: 1px solid red; */
-    width: 43px;
-    height: 43px;
+    width: 80rpx;
+    height: 80rpx;
     text-align: center;
     border: 1px solid #ddd;
+    border-left-color: transparent;
+    border-right-color: transparent;
 }
 
 view.ordercount>text.disabled {

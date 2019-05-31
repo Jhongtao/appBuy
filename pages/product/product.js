@@ -484,8 +484,23 @@ Page({
             // })
     },
     addpronum(e) {
+        var ordercount
+        var total = this.data.productinfo.Classify[this.data.ppindex].Total
+        var soldCount = this.data.productinfo.Classify[this.data.ppindex].SoldCount
+        if (parseInt(e.detail.value) > total - soldCount) {
+            wx.showToast({
+                title: '超出库存',
+                icon: 'none',
+                duration: 1000
+            })
+            ordercount = total - soldCount
+        } else if (parseInt(e.detail.value) < 1) {
+            ordercount = 1
+        } else {
+            ordercount = parseInt(e.detail.value)
+        }
         this.setData({
-            ordercount: parseInt(e.detail.value)
+            ordercount
         })
     },
     minusordercount() {
@@ -582,5 +597,13 @@ Page({
     },
     tocart: function(e) {
         wx.switchTab({ "url": '/pages/cart/cart' })
+    },
+    showImg(e) {
+        var index = e.currentTarget.dataset.index
+        var urls = this.data.productinfo.Imgs.map(item => 'https:' + item)
+        wx.previewImage({
+            current: urls[index],
+            urls
+        })
     }
 })
