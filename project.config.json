@@ -21,7 +21,7 @@
 		}
 	},
 	"compileType": "miniprogram",
-	"libVersion": "2.7.1",
+	"libVersion": "2.7.0",
 	"appid": "wxaa159c2be81d3fb7",
 	"projectname": "newshop",
 	"debugOptions": {

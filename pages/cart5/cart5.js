@@ -190,6 +190,7 @@ Page({
         var DeliveryId = 32;
         if (IsExpress && this.data.AddressList.length == 0) {
             this.setData({ 'ss': 1 });
+            region.IdToVal.call(this);
             return;
         }
         var AddressId = '';

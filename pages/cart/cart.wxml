@@ -120,7 +120,7 @@
         <view class="option {{IsInvoice? '':'selected'}}" bindtap="changeInvoice">
           <text>不需要发票</text>
         </view>
-        <block wx:if="{{!InvoiceList&&InvoiceList.length>0}}" wx:for="{{InvoiceList}}" wx:for-item="item" wx:key="index">
+        <block wx:if="{{InvoiceList&&InvoiceList.length>0}}" wx:for="{{InvoiceList}}" wx:for-item="item" wx:key="index">
           <view class="option {{InvoiceId==item.Id?'selected':''}}" data-id="{{item.Id}}" bindtap="changeInvoice">
             <text>{{item.InvTypeName}}</text>
             <text>{{item.InvTitleTypeName}} {{item.InvoiceTitle}}</text>

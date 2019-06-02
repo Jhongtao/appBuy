@@ -9,6 +9,8 @@ Page({
         token: '',
         List: [],
         invoiceEdit: false,
+        initInvoive: false,
+        addInvoice: false,
         editInvoice: {},
         typeArray: [],
         typeValue: [],
@@ -38,6 +40,7 @@ Page({
             }
             this.setData({ token: token });
             this.loadData(this.data.s)
+            this._initInvoive()
         })
     },
     loadData: function(s) {
@@ -62,6 +65,10 @@ Page({
                     List[index].OrderTime = OrderTime;
                 });
                 this.setData({ List: List });
+            } else {
+                this.setData({
+                    List: []
+                })
             }
         })
     },
@@ -70,7 +77,13 @@ Page({
         this.setData({ s: s });
         this.loadData(s);
     },
-    invoiceEdit(e) {
+    addInvoice() {
+        this.setData({
+            invoiceEdit: true,
+            // editInvoice: {}
+        })
+    },
+    _initInvoive() {
         var task1 = dataApi.getInvContentType({ token: this.data.token }).then(res => {
             if (res.data.Code != 0) return
             var arr = [],
@@ -111,36 +124,90 @@ Page({
             })
         })
         Promise.all([task1, task2, task3]).then(res => {
-            console.log(res, task3)
-            var index = e.currentTarget.dataset.index;
-            var editInvoice = this.data.List[index]
-            var typeindex = this.data.typeValue.findIndex(item => {
-                return item == editInvoice.InvoiceType
-            })
-            var titleindex = this.data.titleValue.findIndex(item => {
-                return item == editInvoice.InvTitleType
-            })
-            var contentindex = this.data.contentValue.findIndex(item => {
-                return item == editInvoice.InvContentType
-            })
             this.setData({
+                initInvoive: true
+            })
+        })
+    },
+    invoiceEdit(e) {
+        // var task1 = dataApi.getInvContentType({ token: this.data.token }).then(res => {
+        //     if (res.data.Code != 0) return
+        //     var arr = [],
+        //         value = []
+        //     res.data.Datas.forEach(item => {
+        //         arr.push(item.Name)
+        //         value.push(item.Id)
+        //     })
+        //     this.setData({
+        //         contentArray: arr,
+        //         contentValue: value
+        //     })
+        // })
+        // var task2 = dataApi.getInvTitleType({ token: this.data.token }).then(res => {
+        //     if (res.data.Code != 0) return
+        //     var arr = [],
+        //         value = []
+        //     res.data.Datas.forEach(item => {
+        //         arr.push(item.Name)
+        //         value.push(item.Id)
+        //     })
+        //     this.setData({
+        //         titleArray: arr,
+        //         titleValue: value
+        //     })
+        // })
+        // var task3 = dataApi.getInvoiceType({ token: this.data.token }).then(res => {
+        //     if (res.data.Code != 0) return
+        //     var arr = [],
+        //         value = []
+        //     res.data.Datas.forEach(item => {
+        //         arr.push(item.Name)
+        //         value.push(item.Id)
+        //     })
+        //     this.setData({
+        //         typeArray: arr,
+        //         typeValue: value
+        //     })
+        // })
+        // Promise.all([task1, task2, task3]).then(res => {
+        //     console.log(res, task3)
+        if (!this.data.initInvoive) {
+            wx.showToast({
+                title: '正在初始化',
+                icon: "none",
+                duration: 1000
+            })
+            return
+        }
+        var index = e.currentTarget.dataset.index;
+        var editInvoice = this.data.List[index]
+        var typeindex = this.data.typeValue.findIndex(item => {
+            return item == editInvoice.InvoiceType
+        })
+        var titleindex = this.data.titleValue.findIndex(item => {
+            return item == editInvoice.InvTitleType
+        })
+        var contentindex = this.data.contentValue.findIndex(item => {
+            return item == editInvoice.InvContentType
+        })
+        this.setData({
                 invoiceEdit: true,
                 editInvoice,
                 typeindex,
                 titleindex,
                 contentindex
             })
-        })
+            // })
 
     },
     bindPickerChange1(e) {
         var index = e.detail.value
         var edit = this.data.editInvoice
-        edit.InvTypeName = this.data.typeArray[index]
-        edit.InvoiceType = this.data.typeValue[index]
-        if (edit.InvoiceType == 23) {
-            edit.InvTitleType = 26
-            edit.InvTitleTypeName = '公司'
+        this.data.editInvoice.InvTypeName = this.data.typeArray[index]
+        this.data.editInvoice.InvoiceType = this.data.typeValue[index]
+        if (this.data.editInvoice.InvoiceType == 23) {
+            this.data.editInvoice.InvTitleType = 26
+            this.data.editInvoice.InvTitleTypeName = '公司'
         }
         this.setData({
             typeindex: index,
@@ -150,8 +217,8 @@ Page({
     bindPickerChange2(e) {
         var index = e.detail.value
         var edit = this.data.editInvoice
-        edit.InvTitleTypeName = this.data.titleArray[index]
-        edit.InvTitleType = this.data.titleValue[index]
+        this.data.editInvoice.InvTitleTypeName = this.data.titleArray[index]
+        this.data.editInvoice.InvTitleType = this.data.titleValue[index]
         this.setData({
             titleindex: index,
             editInvoice: edit
@@ -160,8 +227,8 @@ Page({
     bindPickerChange3(e) {
         var index = e.detail.value
         var edit = this.data.editInvoice
-        edit.InvContentName = this.data.contentArray[index]
-        edit.InvContentType = this.data.contentValue[index]
+        this.data.editInvoice.InvContentName = this.data.contentArray[index]
+        this.data.editInvoice.InvContentType = this.data.contentValue[index]
         this.setData({
             contentindex: index,
             editInvoice: edit
@@ -209,6 +276,7 @@ Page({
         delete params.RealName
         delete params.UserId
         delete params.CreateTime
+        console.log(params)
         dataApi.upInvoice(params, { token: this.data.token }).then(res => {
             if (res.data.Code != 0) return
             wx.showToast({

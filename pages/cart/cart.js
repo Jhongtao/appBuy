@@ -164,7 +164,7 @@ Page({
     switchss: function(e) {
         var text = e._relatedInfo.anchorTargetText;
         var ss = 0;
-        console.log(text, this.data);
+        // console.log(e, this.data);
         switch (text) {
             case '添加收货地址':
                 this.setData({ ss: 1 });
@@ -504,6 +504,7 @@ Page({
         var DeliveryId = 32;
         if (IsExpress && this.data.AddressList.length == 0) {
             this.setData({ 'ss': 1 });
+            region.IdToVal.call(this);
             return;
         }
         var AddressId = '';

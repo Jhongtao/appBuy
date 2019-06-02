@@ -12,6 +12,9 @@
         <view>下单时间</view>
         <view>操作</view>
     </view>
+    <view wx:if="{{s==4}}">
+        <text bindtap="addInvoice">添加发票</text>
+    </view>
     <view wx:if="{{s==4}}" class="listhead">
         <view>发票类型</view>
         <view>发票抬头</view>
@@ -22,7 +25,7 @@
         <image src="/img/unfound.svg" class="pp" mode="aspectFit" />
     </view>
     <scroll-view wx:else scroll-y="scroll-y">
-        <view wx:if="{{s!=4}}" class="listitem" wx:for="{{List}}" wx:for-item="item" wx:key="index">
+        <view wx:if="{{s!=4&&List[0]}}" class="listitem" wx:for="{{List}}" wx:for-item="item" wx:key="index">
             <view>{{item.SeRealName}}</view>
             <view>￥{{item.Discounts}}</view>
             <view>{{item.OrderTime}}</view>
@@ -32,7 +35,7 @@
                 </navigator>
             </view>
         </view>
-        <view wx:if="{{s==4}}" class="listitem" wx:for="{{List}}" wx:for-item="item" wx:key="index">
+        <view wx:if="{{s==4&&List[0]}}" class="listitem" wx:for="{{List}}" wx:for-item="item" wx:key="index">
             <view>{{item.InvTypeName}}</view>
             <view>{{item.InvoiceTitle}}</view>
             <view>{{item.InvContentName}}</view>
@@ -42,79 +45,79 @@
                 <!-- <navigator data-index="{{index}}" url="/pages/orderDtl/orderDtl?orderid={{item.OrderId}}">
                     订单详情
                 </navigator> -->
-                <view wx:if="{{invoiceEdit}}" class="invoice-edit" catchtap="closeEdit">
-                    <form bindsubmit="formSubmit" bindreset="formReset" catchtap="noexe" class="from-content">
-                        <view class="title">
-                            <text>编辑发票</text>
-                            <text catchtap="closeEdit">×</text>
-                        </view>
-                        <view class="content">
-                            <view class="list-item">
-                                <view>发票类型:</view>
-                                <picker name="InvoiceType" bindchange="bindPickerChange1" value="{{typeindex}}" range="{{typeArray}}">
-                                    <view class="picker">{{typeArray[typeindex]}}</view>
-                                </picker>
-                            </view>
-                            <view class="list-item" wx:if="{{editInvoice.InvoiceType != 23}}">
-                                <view>发票抬头类型:</view>
-                                <picker name="InvTitleType" bindchange="bindPickerChange2" value="{{titleindex}}" range="{{titleArray}}">
-                                    <view class="picker">{{titleArray[titleindex]}}</view>
-                                </picker>
-                            </view>
-                            <view class="list-item" >
-                                <view>发票抬头:</view>
-                                <input name="InvoiceTitle" type="text" value="{{editInvoice.InvoiceTitle}}"  />
-                            </view>
-                            <view class="list-item">
-                                <view>发票内容:</view>
-                                <picker name="InvContentType" bindchange="bindPickerChange3" value="{{contentindex}}" range="{{contentArray}}">
-                                    <view class="picker">{{contentArray[contentindex]}}</view>
-                                </picker>
-                            </view>
-                            <view wx:if="{{editInvoice.InvTitleType == 26}}" class="list-item">
-                                <view>税号:</view>
-                                <input name="DutyNumber" type="text" value="{{editInvoice.DutyNumber}}"  />
-                            </view>
-                            <view  wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
-                                <view>注册地址:</view>
-                                <input name="address" type="text" value="{{editInvoice.address}}"  />
-                            </view>
-                            <view  wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
-                                <view>注册电话:</view>
-                                <input name="Phone" type="text" value="{{editInvoice.Phone}}"  />
-                            </view>
-                            <view  wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
-                                <view>开户银行:</view>
-                                <input name="BankName" type="text" value="{{editInvoice.BankName}}"  />
-                            </view>
-                            <view  wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
-                                <view>银行账号:</view>
-                                <input name="BankAccount" type="text" value="{{editInvoice.BankAccount}}"  />
-                            </view>
-                            <view  wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
-                                <view>收票人:</view>
-                                <input name="TakerName" type="text" value="{{editInvoice.TakerName}}"  />
-                            </view>
-                            <view  wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
-                                <view>收票人电话:</view>
-                                <input name="TakerPhone" type="text" value="{{editInvoice.TakerPhone}}"  />
-                            </view>
-                            <view  wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
-                                <view>收票人地址:</view>
-                                <input name="TakerAddress" type="text" value="{{editInvoice.TakerAddress}}"  />
-                            </view>
-                            <view class="list-item">
-                                <view>备注:</view>
-                                <textarea name="Notes" value="{{editInvoice.Notes}}" id="" cols="30" rows="10"></textarea>
-                            </view>
-                            <view class="list-item">
-                                <button form-type="reset">清空</button>
-                                <button form-type="submit">保存</button>
-                            </view>
-                        </view>
-                    </form>
-                </view>
             </view>
+        </view>
+        <view wx:if="{{invoiceEdit}}" class="invoice-edit" catchtap="closeEdit">
+            <form bindsubmit="formSubmit" bindreset="formReset" catchtap="noexe" class="from-content">
+                <view class="title">
+                    <text>{{editInvoice.length>0?'编辑发票':'添加发票'}}</text>
+                    <text catchtap="closeEdit">×</text>
+                </view>
+                <view class="content">
+                    <view class="list-item">
+                        <view>发票类型:</view>
+                        <picker name="InvoiceType" bindchange="bindPickerChange1" value="{{typeindex}}" range="{{typeArray}}">
+                            <view class="picker">{{typeArray[typeindex]}}</view>
+                        </picker>
+                    </view>
+                    <view class="list-item" wx:if="{{editInvoice.InvoiceType != 23}}">
+                        <view>发票抬头类型:</view>
+                        <picker name="InvTitleType" bindchange="bindPickerChange2" value="{{titleindex}}" range="{{titleArray}}">
+                            <view class="picker">{{titleArray[titleindex]}}</view>
+                        </picker>
+                    </view>
+                    <view class="list-item">
+                        <view>发票抬头:</view>
+                        <input name="InvoiceTitle" type="text" value="{{editInvoice.InvoiceTitle}}" />
+                    </view>
+                    <view class="list-item">
+                        <view>发票内容:</view>
+                        <picker name="InvContentType" bindchange="bindPickerChange3" value="{{contentindex}}" range="{{contentArray}}">
+                            <view class="picker">{{contentArray[contentindex]}}</view>
+                        </picker>
+                    </view>
+                    <view wx:if="{{editInvoice.InvTitleType == 26}}" class="list-item">
+                        <view>税号:</view>
+                        <input name="DutyNumber" type="text" value="{{editInvoice.DutyNumber}}" />
+                    </view>
+                    <view wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
+                        <view>注册地址:</view>
+                        <input name="address" type="text" value="{{editInvoice.address}}" />
+                    </view>
+                    <view wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
+                        <view>注册电话:</view>
+                        <input name="Phone" type="text" value="{{editInvoice.Phone}}" />
+                    </view>
+                    <view wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
+                        <view>开户银行:</view>
+                        <input name="BankName" type="text" value="{{editInvoice.BankName}}" />
+                    </view>
+                    <view wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
+                        <view>银行账号:</view>
+                        <input name="BankAccount" type="text" value="{{editInvoice.BankAccount}}" />
+                    </view>
+                    <view wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
+                        <view>收票人:</view>
+                        <input name="TakerName" type="text" value="{{editInvoice.TakerName}}" />
+                    </view>
+                    <view wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
+                        <view>收票人电话:</view>
+                        <input name="TakerPhone" type="text" value="{{editInvoice.TakerPhone}}" />
+                    </view>
+                    <view wx:if="{{editInvoice.InvoiceType == 23}}" class="list-item">
+                        <view>收票人地址:</view>
+                        <input name="TakerAddress" type="text" value="{{editInvoice.TakerAddress}}" />
+                    </view>
+                    <view class="list-item">
+                        <view>备注:</view>
+                        <textarea name="Notes" value="{{editInvoice.Notes}}" id="" cols="30" rows="10"></textarea>
+                    </view>
+                    <view class="list-item">
+                        <button form-type="reset">清空</button>
+                        <button form-type="submit">保存</button>
+                    </view>
+                </view>
+            </form>
         </view>
     </scroll-view>
 </view>
